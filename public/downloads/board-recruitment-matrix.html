@@ -1,0 +1,952 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Board Recruitment Matrix - ASCEND Nonprofits</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+            color: #000000;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #C1272D 0%, #8B1A1F 100%);
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(193, 39, 45, 0.3);
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+        
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .section {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            border-left: 4px solid #C1272D;
+        }
+        
+        .section h2 {
+            color: #C1272D;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .candidate-card {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            border-left: 4px solid #007bff;
+            position: relative;
+        }
+        
+        .candidate-card.high-priority {
+            border-left-color: #28a745;
+            background: #f0fff4;
+        }
+        
+        .candidate-card.medium-priority {
+            border-left-color: #ffc107;
+            background: #fffbf0;
+        }
+        
+        .candidate-card.low-priority {
+            border-left-color: #6c757d;
+            background: #f8f9fa;
+        }
+        
+        .candidate-header {
+            display: flex;
+            justify-content: between;
+            align-items: center;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        
+        .candidate-name {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #000;
+            flex: 1;
+        }
+        
+        .priority-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+        
+        .priority-badge.high {
+            background: #28a745;
+            color: white;
+        }
+        
+        .priority-badge.medium {
+            background: #ffc107;
+            color: #000;
+        }
+        
+        .priority-badge.low {
+            background: #6c757d;
+            color: white;
+        }
+        
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 0.5rem;
+            margin: 1rem 0;
+        }
+        
+        .skill-tag {
+            background: #e9ecef;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            text-align: center;
+        }
+        
+        .skill-tag.has-skill {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            color: #000000;
+        }
+        
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+        
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #C1272D;
+            box-shadow: 0 0 0 3px rgba(193, 39, 45, 0.1);
+        }
+        
+        .checkbox-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
+        
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .checkbox-item input[type="checkbox"] {
+            width: auto;
+            margin: 0;
+        }
+        
+        .rating-group {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+        
+        .rating-group input[type="radio"] {
+            width: auto;
+            margin: 0;
+        }
+        
+        .btn {
+            background: linear-gradient(135deg, #C1272D 0%, #8B1A1F 100%);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-right: 1rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(193, 39, 45, 0.3);
+        }
+        
+        .btn-secondary {
+            background: linear-gradient(135deg, #000000 0%, #333333 100%);
+        }
+        
+        .btn-secondary:hover {
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        .btn-small {
+            padding: 0.5rem 1rem;
+            font-size: 0.9rem;
+        }
+        
+        .matrix-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+            background: white;
+        }
+        
+        .matrix-table th,
+        .matrix-table td {
+            padding: 0.75rem;
+            text-align: left;
+            border: 1px solid #e9ecef;
+        }
+        
+        .matrix-table th {
+            background: #f8f9fa;
+            font-weight: bold;
+            color: #000;
+        }
+        
+        .matrix-table tr:hover {
+            background: #f8f9fa;
+        }
+        
+        .footer {
+            background: #000000;
+            color: white;
+            text-align: center;
+            padding: 2rem;
+            margin-top: 3rem;
+        }
+        
+        .footer p {
+            opacity: 0.8;
+        }
+        
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .container {
+                padding: 1rem;
+            }
+            
+            .section {
+                padding: 1.5rem;
+            }
+            
+            .candidate-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .matrix-table {
+                font-size: 0.8rem;
+            }
+            
+            .matrix-table th,
+            .matrix-table td {
+                padding: 0.5rem;
+            }
+        }
+        
+        .print-btn {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            z-index: 1000;
+        }
+        
+        @media print {
+            .print-btn, .btn {
+                display: none;
+            }
+            
+            .header {
+                background: #C1272D !important;
+                -webkit-print-color-adjust: exact;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Board Recruitment Matrix</h1>
+        <p>Organize and prioritize potential board candidates based on key criteria</p>
+    </div>
+
+    <div class="container">
+        <!-- Board Needs Assessment -->
+        <div class="section">
+            <h2>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M16,6L18.29,8.29L13.41,13.17L9.41,9.17L2,16.59L3.41,18L9.41,12L13.41,16L19.71,9.71L22,12V6H16Z"/>
+                </svg>
+                Board Needs Assessment
+            </h2>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1rem;">
+                <div class="form-group">
+                    <label for="currentBoardSize">Current Board Size:</label>
+                    <input type="number" id="currentBoardSize" placeholder="Number of current board members" min="0">
+                </div>
+                <div class="form-group">
+                    <label for="targetBoardSize">Target Board Size:</label>
+                    <input type="number" id="targetBoardSize" placeholder="Ideal number of board members" min="0">
+                </div>
+                <div class="form-group">
+                    <label for="recruitmentGoal">Recruitment Goal:</label>
+                    <input type="number" id="recruitmentGoal" placeholder="Number of new members needed" min="0">
+                </div>
+                <div class="form-group">
+                    <label for="recruitmentTimeline">Recruitment Timeline:</label>
+                    <input type="text" id="recruitmentTimeline" placeholder="e.g., Next 6 months">
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label>Priority Skills & Expertise Needed:</label>
+                <div class="checkbox-grid">
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="skill-fundraising" value="fundraising">
+                        <label for="skill-fundraising">Fundraising</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="skill-legal" value="legal">
+                        <label for="skill-legal">Legal</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="skill-finance" value="finance">
+                        <label for="skill-finance">Finance/Accounting</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="skill-marketing" value="marketing">
+                        <label for="skill-marketing">Marketing/PR</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="skill-program" value="program">
+                        <label for="skill-program">Program Knowledge</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="skill-community" value="community">
+                        <label for="skill-community">Community Connections</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="skill-technology" value="technology">
+                        <label for="skill-technology">Technology</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="skill-hr" value="hr">
+                        <label for="skill-hr">Human Resources</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="skill-strategic" value="strategic">
+                        <label for="skill-strategic">Strategic Planning</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="skill-governance" value="governance">
+                        <label for="skill-governance">Governance</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Add New Candidate -->
+        <div class="section">
+            <h2>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z"/>
+                </svg>
+                Add New Candidate
+            </h2>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1rem;">
+                <div class="form-group">
+                    <label for="candidateName">Candidate Name:</label>
+                    <input type="text" id="candidateName" placeholder="Full name">
+                </div>
+                <div class="form-group">
+                    <label for="candidateTitle">Current Title/Position:</label>
+                    <input type="text" id="candidateTitle" placeholder="Professional title">
+                </div>
+                <div class="form-group">
+                    <label for="candidateOrganization">Organization:</label>
+                    <input type="text" id="candidateOrganization" placeholder="Current employer">
+                </div>
+                <div class="form-group">
+                    <label for="candidateEmail">Email:</label>
+                    <input type="email" id="candidateEmail" placeholder="contact@email.com">
+                </div>
+                <div class="form-group">
+                    <label for="candidatePhone">Phone:</label>
+                    <input type="tel" id="candidatePhone" placeholder="(555) 123-4567">
+                </div>
+                <div class="form-group">
+                    <label for="referralSource">Referral Source:</label>
+                    <input type="text" id="referralSource" placeholder="Who referred this candidate?">
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label>Skills & Expertise:</label>
+                <div class="checkbox-grid" id="candidateSkills">
+                    <div class="checkbox-item">
+                        <input type="checkbox" value="fundraising">
+                        <label>Fundraising</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" value="legal">
+                        <label>Legal</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" value="finance">
+                        <label>Finance/Accounting</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" value="marketing">
+                        <label>Marketing/PR</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" value="program">
+                        <label>Program Knowledge</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" value="community">
+                        <label>Community Connections</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" value="technology">
+                        <label>Technology</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" value="hr">
+                        <label>Human Resources</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" value="strategic">
+                        <label>Strategic Planning</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" value="governance">
+                        <label>Governance</label>
+                    </div>
+                </div>
+            </div>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem;">
+                <div class="form-group">
+                    <label>Availability Rating:</label>
+                    <div class="rating-group">
+                        <input type="radio" id="avail-high" name="availability" value="high">
+                        <label for="avail-high">High</label>
+                        <input type="radio" id="avail-medium" name="availability" value="medium">
+                        <label for="avail-medium">Medium</label>
+                        <input type="radio" id="avail-low" name="availability" value="low">
+                        <label for="avail-low">Low</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Network Reach:</label>
+                    <div class="rating-group">
+                        <input type="radio" id="network-high" name="network" value="high">
+                        <label for="network-high">High</label>
+                        <input type="radio" id="network-medium" name="network" value="medium">
+                        <label for="network-medium">Medium</label>
+                        <input type="radio" id="network-low" name="network" value="low">
+                        <label for="network-low">Low</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Overall Priority:</label>
+                    <div class="rating-group">
+                        <input type="radio" id="priority-high" name="priority" value="high">
+                        <label for="priority-high">High</label>
+                        <input type="radio" id="priority-medium" name="priority" value="medium">
+                        <label for="priority-medium">Medium</label>
+                        <input type="radio" id="priority-low" name="priority" value="low">
+                        <label for="priority-low">Low</label>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="candidateNotes">Notes:</label>
+                <textarea id="candidateNotes" rows="3" placeholder="Additional observations, follow-up needs, or other relevant information"></textarea>
+            </div>
+            
+            <button class="btn" onclick="addCandidate()">Add Candidate</button>
+        </div>
+
+        <!-- Candidate Matrix -->
+        <div class="section">
+            <h2>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12,4A4,4 0 0,1 16,8A4,4 0 0,1 12,12A4,4 0 0,1 8,8A4,4 0 0,1 12,4M12,14C16.42,14 20,15.79 20,18V20H4V18C4,15.79 7.58,14 12,14Z"/>
+                </svg>
+                Candidate Matrix
+            </h2>
+            <div id="candidatesContainer">
+                <!-- Sample candidate card -->
+                <div class="candidate-card high-priority">
+                    <div class="candidate-header">
+                        <div class="candidate-name">Sample Candidate</div>
+                        <div class="priority-badge high">High Priority</div>
+                    </div>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 1rem;">
+                        <div><strong>Title:</strong> Executive Director</div>
+                        <div><strong>Organization:</strong> Sample Nonprofit</div>
+                        <div><strong>Email:</strong> sample@email.com</div>
+                        <div><strong>Referral:</strong> Board Member</div>
+                    </div>
+                    
+                    <div style="margin-bottom: 1rem;">
+                        <strong>Skills:</strong>
+                        <div class="skills-grid">
+                            <div class="skill-tag has-skill">Fundraising</div>
+                            <div class="skill-tag has-skill">Strategic Planning</div>
+                            <div class="skill-tag has-skill">Community Connections</div>
+                            <div class="skill-tag">Legal</div>
+                            <div class="skill-tag">Finance</div>
+                        </div>
+                    </div>
+                    
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem; margin-bottom: 1rem;">
+                        <div><strong>Availability:</strong> High</div>
+                        <div><strong>Network:</strong> High</div>
+                        <div><strong>Priority:</strong> High</div>
+                    </div>
+                    
+                    <div style="margin-bottom: 1rem;">
+                        <strong>Notes:</strong> Excellent candidate with strong nonprofit background and fundraising experience.
+                    </div>
+                    
+                    <div>
+                        <button class="btn btn-small" onclick="editCandidate(this)">Edit</button>
+                        <button class="btn btn-small btn-secondary" onclick="contactCandidate(this)">Contact</button>
+                        <button class="btn btn-small" onclick="removeCandidate(this)" style="background: #dc3545;">Remove</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Diversity & Inclusion Tracking -->
+        <div class="section">
+            <h2>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12,5.5A3.5,3.5 0 0,1 15.5,9A3.5,3.5 0 0,1 12,12.5A3.5,3.5 0 0,1 8.5,9A3.5,3.5 0 0,1 12,5.5M5,8C5.56,8 6.08,8.15 6.53,8.42C6.38,9.85 6.8,11.27 7.66,12.38C7.16,13.34 6.16,14 5,14A3,3 0 0,1 2,11A3,3 0 0,1 5,8M19,8A3,3 0 0,1 22,11A3,3 0 0,1 19,14C17.84,14 16.84,13.34 16.34,12.38C17.2,11.27 17.62,9.85 17.47,8.42C17.92,8.15 18.44,8 19,8M5.5,18.25C5.5,16.18 8.41,14.5 12,14.5C15.59,14.5 18.5,16.18 18.5,18.25V20H5.5V18.25M0,20V18.5C0,17.11 1.89,15.94 4.45,15.6C3.86,16.28 3.5,17.22 3.5,18.25V20H0M24,20H20.5V18.25C20.5,17.22 20.14,16.28 19.55,15.6C22.11,15.94 24,17.11 24,18.5V20Z"/>
+                </svg>
+                Diversity & Inclusion Goals
+            </h2>
+            <div class="form-group">
+                <label for="diversityGoals">Diversity & Inclusion Priorities:</label>
+                <textarea id="diversityGoals" rows="4" placeholder="Describe your board's diversity goals (e.g., demographic representation, professional backgrounds, geographic diversity, lived experience, etc.)"></textarea>
+            </div>
+            
+            <div class="form-group">
+                <label for="inclusionStrategy">Inclusion Strategy:</label>
+                <textarea id="inclusionStrategy" rows="4" placeholder="How will you ensure an inclusive board culture that values diverse perspectives and experiences?"></textarea>
+            </div>
+        </div>
+
+        <!-- Summary Matrix Table -->
+        <div class="section">
+            <h2>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M14,10H19.5L14,4.5V10M5,3H15L21,9V19A2,2 0 0,1 19,21H5C3.89,21 3,20.1 3,19V5C3,3.89 3.89,3 5,3M9,12H16V14H9V12M9,16H14V18H9V16Z"/>
+                </svg>
+                Summary Matrix
+            </h2>
+            <div style="overflow-x: auto;">
+                <table class="matrix-table" id="summaryTable">
+                    <thead>
+                        <tr>
+                            <th>Candidate Name</th>
+                            <th>Key Skills</th>
+                            <th>Availability</th>
+                            <th>Network Reach</th>
+                            <th>Priority</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Sample Candidate</td>
+                            <td>Fundraising, Strategic Planning</td>
+                            <td>High</td>
+                            <td>High</td>
+                            <td>High</td>
+                            <td>To Contact</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div style="text-align: center; margin: 2rem 0;">
+            <button type="button" class="btn" onclick="saveMatrix()">Save Matrix</button>
+            <button type="button" class="btn btn-secondary" onclick="loadMatrix()">Load Saved Data</button>
+            <button type="button" class="btn" onclick="exportMatrix()">Export to PDF</button>
+            <button type="button" class="btn btn-secondary" onclick="clearMatrix()">Clear All</button>
+        </div>
+    </div>
+
+    <button class="btn print-btn" onclick="window.print()">Print Matrix</button>
+
+    <div class="footer">
+        <p>&copy; 2025 ASCEND Nonprofits. Empowering nonprofits from vision to victory.</p>
+    </div>
+
+    <script>
+        let candidates = [];
+        
+        function addCandidate() {
+            const name = document.getElementById('candidateName').value;
+            const title = document.getElementById('candidateTitle').value;
+            const organization = document.getElementById('candidateOrganization').value;
+            const email = document.getElementById('candidateEmail').value;
+            const phone = document.getElementById('candidatePhone').value;
+            const referralSource = document.getElementById('referralSource').value;
+            const notes = document.getElementById('candidateNotes').value;
+            
+            if (!name) {
+                alert('Please enter the candidate name.');
+                return;
+            }
+            
+            // Get selected skills
+            const skillCheckboxes = document.querySelectorAll('#candidateSkills input[type="checkbox"]:checked');
+            const skills = Array.from(skillCheckboxes).map(cb => cb.value);
+            
+            // Get ratings
+            const availability = document.querySelector('input[name="availability"]:checked')?.value || '';
+            const network = document.querySelector('input[name="network"]:checked')?.value || '';
+            const priority = document.querySelector('input[name="priority"]:checked')?.value || '';
+            
+            const candidate = {
+                id: Date.now(),
+                name,
+                title,
+                organization,
+                email,
+                phone,
+                referralSource,
+                skills,
+                availability,
+                network,
+                priority,
+                notes,
+                status: 'to-contact'
+            };
+            
+            candidates.push(candidate);
+            renderCandidates();
+            updateSummaryTable();
+            clearCandidateForm();
+        }
+        
+        function clearCandidateForm() {
+            document.getElementById('candidateName').value = '';
+            document.getElementById('candidateTitle').value = '';
+            document.getElementById('candidateOrganization').value = '';
+            document.getElementById('candidateEmail').value = '';
+            document.getElementById('candidatePhone').value = '';
+            document.getElementById('referralSource').value = '';
+            document.getElementById('candidateNotes').value = '';
+            
+            // Clear checkboxes and radio buttons
+            document.querySelectorAll('#candidateSkills input[type="checkbox"]').forEach(cb => cb.checked = false);
+            document.querySelectorAll('input[type="radio"]').forEach(radio => radio.checked = false);
+        }
+        
+        function renderCandidates() {
+            const container = document.getElementById('candidatesContainer');
+            container.innerHTML = '';
+            
+            // Sort candidates by priority
+            const sortedCandidates = [...candidates].sort((a, b) => {
+                const priorityOrder = { high: 3, medium: 2, low: 1 };
+                return (priorityOrder[b.priority] || 0) - (priorityOrder[a.priority] || 0);
+            });
+            
+            sortedCandidates.forEach(candidate => {
+                const candidateCard = document.createElement('div');
+                candidateCard.className = `candidate-card ${candidate.priority}-priority`;
+                candidateCard.innerHTML = `
+                    <div class="candidate-header">
+                        <div class="candidate-name">${candidate.name}</div>
+                        <div class="priority-badge ${candidate.priority}">${getPriorityText(candidate.priority)} Priority</div>
+                    </div>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 1rem;">
+                        <div><strong>Title:</strong> ${candidate.title}</div>
+                        <div><strong>Organization:</strong> ${candidate.organization}</div>
+                        <div><strong>Email:</strong> ${candidate.email}</div>
+                        <div><strong>Referral:</strong> ${candidate.referralSource}</div>
+                    </div>
+                    
+                    <div style="margin-bottom: 1rem;">
+                        <strong>Skills:</strong>
+                        <div class="skills-grid">
+                            ${getAllSkills().map(skill => 
+                                `<div class="skill-tag ${candidate.skills.includes(skill) ? 'has-skill' : ''}">${formatSkillName(skill)}</div>`
+                            ).join('')}
+                        </div>
+                    </div>
+                    
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem; margin-bottom: 1rem;">
+                        <div><strong>Availability:</strong> ${formatRating(candidate.availability)}</div>
+                        <div><strong>Network:</strong> ${formatRating(candidate.network)}</div>
+                        <div><strong>Priority:</strong> ${formatRating(candidate.priority)}</div>
+                    </div>
+                    
+                    ${candidate.notes ? `<div style="margin-bottom: 1rem;"><strong>Notes:</strong> ${candidate.notes}</div>` : ''}
+                    
+                    <div>
+                        <button class="btn btn-small" onclick="editCandidate(${candidate.id})">Edit</button>
+                        <button class="btn btn-small btn-secondary" onclick="contactCandidate(${candidate.id})">Contact</button>
+                        <button class="btn btn-small" onclick="removeCandidate(${candidate.id})" style="background: #dc3545;">Remove</button>
+                    </div>
+                `;
+                container.appendChild(candidateCard);
+            });
+        }
+        
+        function getAllSkills() {
+            return ['fundraising', 'legal', 'finance', 'marketing', 'program', 'community', 'technology', 'hr', 'strategic', 'governance'];
+        }
+        
+        function formatSkillName(skill) {
+            const skillNames = {
+                'fundraising': 'Fundraising',
+                'legal': 'Legal',
+                'finance': 'Finance',
+                'marketing': 'Marketing',
+                'program': 'Program',
+                'community': 'Community',
+                'technology': 'Technology',
+                'hr': 'HR',
+                'strategic': 'Strategic',
+                'governance': 'Governance'
+            };
+            return skillNames[skill] || skill;
+        }
+        
+        function getPriorityText(priority) {
+            return priority ? priority.charAt(0).toUpperCase() + priority.slice(1) : '';
+        }
+        
+        function formatRating(rating) {
+            return rating ? rating.charAt(0).toUpperCase() + rating.slice(1) : 'Not Set';
+        }
+        
+        function updateSummaryTable() {
+            const tbody = document.querySelector('#summaryTable tbody');
+            tbody.innerHTML = '';
+            
+            candidates.forEach(candidate => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${candidate.name}</td>
+                    <td>${candidate.skills.map(formatSkillName).join(', ')}</td>
+                    <td>${formatRating(candidate.availability)}</td>
+                    <td>${formatRating(candidate.network)}</td>
+                    <td>${formatRating(candidate.priority)}</td>
+                    <td>To Contact</td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+        
+        function editCandidate(candidateId) {
+            const candidate = candidates.find(c => c.id === candidateId);
+            if (candidate) {
+                document.getElementById('candidateName').value = candidate.name;
+                document.getElementById('candidateTitle').value = candidate.title;
+                document.getElementById('candidateOrganization').value = candidate.organization;
+                document.getElementById('candidateEmail').value = candidate.email;
+                document.getElementById('candidatePhone').value = candidate.phone;
+                document.getElementById('referralSource').value = candidate.referralSource;
+                document.getElementById('candidateNotes').value = candidate.notes;
+                
+                // Set skills
+                document.querySelectorAll('#candidateSkills input[type="checkbox"]').forEach(cb => {
+                    cb.checked = candidate.skills.includes(cb.value);
+                });
+                
+                // Set ratings
+                if (candidate.availability) {
+                    document.querySelector(`input[name="availability"][value="${candidate.availability}"]`).checked = true;
+                }
+                if (candidate.network) {
+                    document.querySelector(`input[name="network"][value="${candidate.network}"]`).checked = true;
+                }
+                if (candidate.priority) {
+                    document.querySelector(`input[name="priority"][value="${candidate.priority}"]`).checked = true;
+                }
+                
+                // Remove the candidate so it can be re-added with updates
+                removeCandidate(candidateId);
+            }
+        }
+        
+        function contactCandidate(candidateId) {
+            const candidate = candidates.find(c => c.id === candidateId);
+            if (candidate && candidate.email) {
+                window.open(`mailto:${candidate.email}?subject=Board Membership Opportunity`);
+            } else {
+                alert('No email address available for this candidate.');
+            }
+        }
+        
+        function removeCandidate(candidateId) {
+            if (confirm('Are you sure you want to remove this candidate?')) {
+                candidates = candidates.filter(c => c.id !== candidateId);
+                renderCandidates();
+                updateSummaryTable();
+            }
+        }
+        
+        function saveMatrix() {
+            const data = {
+                boardNeeds: {
+                    currentBoardSize: document.getElementById('currentBoardSize').value,
+                    targetBoardSize: document.getElementById('targetBoardSize').value,
+                    recruitmentGoal: document.getElementById('recruitmentGoal').value,
+                    recruitmentTimeline: document.getElementById('recruitmentTimeline').value
+                },
+                diversityGoals: document.getElementById('diversityGoals').value,
+                inclusionStrategy: document.getElementById('inclusionStrategy').value,
+                candidates: candidates,
+                prioritySkills: []
+            };
+            
+            // Save priority skills
+            const skillCheckboxes = document.querySelectorAll('input[id^="skill-"]:checked');
+            data.prioritySkills = Array.from(skillCheckboxes).map(cb => cb.value);
+            
+            localStorage.setItem('boardRecruitmentData', JSON.stringify(data));
+            alert('Board recruitment matrix saved successfully!');
+        }
+        
+        function loadMatrix() {
+            const savedData = localStorage.getItem('boardRecruitmentData');
+            if (savedData) {
+                const data = JSON.parse(savedData);
+                
+                // Load board needs
+                if (data.boardNeeds) {
+                    document.getElementById('currentBoardSize').value = data.boardNeeds.currentBoardSize || '';
+                    document.getElementById('targetBoardSize').value = data.boardNeeds.targetBoardSize || '';
+                    document.getElementById('recruitmentGoal').value = data.boardNeeds.recruitmentGoal || '';
+                    document.getElementById('recruitmentTimeline').value = data.boardNeeds.recruitmentTimeline || '';
+                }
+                
+                document.getElementById('diversityGoals').value = data.diversityGoals || '';
+                document.getElementById('inclusionStrategy').value = data.inclusionStrategy || '';
+                
+                // Load priority skills
+                if (data.prioritySkills) {
+                    data.prioritySkills.forEach(skill => {
+                        const checkbox = document.getElementById(`skill-${skill}`);
+                        if (checkbox) checkbox.checked = true;
+                    });
+                }
+                
+                // Load candidates
+                candidates = data.candidates || [];
+                renderCandidates();
+                updateSummaryTable();
+                
+                alert('Board recruitment matrix loaded successfully!');
+            } else {
+                alert('No saved matrix found.');
+            }
+        }
+        
+        function clearMatrix() {
+            if (confirm('Are you sure you want to clear all data?')) {
+                candidates = [];
+                renderCandidates();
+                updateSummaryTable();
+                
+                // Clear form fields
+                document.getElementById('currentBoardSize').value = '';
+                document.getElementById('targetBoardSize').value = '';
+                document.getElementById('recruitmentGoal').value = '';
+                document.getElementById('recruitmentTimeline').value = '';
+                document.getElementById('diversityGoals').value = '';
+                document.getElementById('inclusionStrategy').value = '';
+                
+                // Clear checkboxes
+                document.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.checked = false);
+                
+                localStorage.removeItem('boardRecruitmentData');
+            }
+        }
+        
+        function exportMatrix() {
+            window.print();
+        }
+        
+        // Auto-save every 30 seconds
+        setInterval(function() {
+            if (candidates.length > 0 || document.getElementById('currentBoardSize').value.trim() !== '') {
+                saveMatrix();
+            }
+        }, 30000);
+        
+        // Load saved data on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            loadMatrix();
+        });
+    </script>
+</body>
+</html>

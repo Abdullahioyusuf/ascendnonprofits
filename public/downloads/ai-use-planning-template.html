@@ -1,0 +1,851 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Use Planning Template - ASCEND Nonprofits</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+            color: #000000;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #C1272D 0%, #8B1A1F 100%);
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(193, 39, 45, 0.3);
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+        
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .section {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            border-left: 4px solid #C1272D;
+        }
+        
+        .section h2 {
+            color: #C1272D;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .ai-tool-card {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            border-left: 4px solid #007bff;
+            position: relative;
+        }
+        
+        .ai-tool-card.recommended {
+            border-left-color: #28a745;
+            background: #f0fff4;
+        }
+        
+        .ai-tool-card.caution {
+            border-left-color: #ffc107;
+            background: #fffbf0;
+        }
+        
+        .tool-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        
+        .tool-name {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #000;
+        }
+        
+        .tool-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+        
+        .tool-badge.recommended {
+            background: #28a745;
+            color: white;
+        }
+        
+        .tool-badge.caution {
+            background: #ffc107;
+            color: #000;
+        }
+        
+        .tool-badge.free {
+            background: #17a2b8;
+            color: white;
+        }
+        
+        .tool-badge.paid {
+            background: #6c757d;
+            color: white;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            color: #000000;
+        }
+        
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+        
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #C1272D;
+            box-shadow: 0 0 0 3px rgba(193, 39, 45, 0.1);
+        }
+        
+        .checkbox-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
+        
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem;
+            background: white;
+            border-radius: 4px;
+            border: 1px solid #e9ecef;
+        }
+        
+        .checkbox-item input[type="checkbox"] {
+            width: auto;
+            margin: 0;
+        }
+        
+        .checkbox-item.selected {
+            background: #e3f2fd;
+            border-color: #2196f3;
+        }
+        
+        .btn {
+            background: linear-gradient(135deg, #C1272D 0%, #8B1A1F 100%);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-right: 1rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(193, 39, 45, 0.3);
+        }
+        
+        .btn-secondary {
+            background: linear-gradient(135deg, #000000 0%, #333333 100%);
+        }
+        
+        .btn-secondary:hover {
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        .btn-small {
+            padding: 0.5rem 1rem;
+            font-size: 0.9rem;
+        }
+        
+        .timeline-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            padding: 1rem;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border-left: 4px solid #007bff;
+        }
+        
+        .timeline-item input[type="date"] {
+            width: auto;
+            min-width: 150px;
+        }
+        
+        .ethics-checklist {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+        }
+        
+        .ethics-checklist h4 {
+            color: #856404;
+            margin-bottom: 1rem;
+        }
+        
+        .footer {
+            background: #000000;
+            color: white;
+            text-align: center;
+            padding: 2rem;
+            margin-top: 3rem;
+        }
+        
+        .footer p {
+            opacity: 0.8;
+        }
+        
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .container {
+                padding: 1rem;
+            }
+            
+            .section {
+                padding: 1.5rem;
+            }
+            
+            .tool-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+        
+        .print-btn {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            z-index: 1000;
+        }
+        
+        @media print {
+            .print-btn, .btn {
+                display: none;
+            }
+            
+            .header {
+                background: #C1272D !important;
+                -webkit-print-color-adjust: exact;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>AI Use Planning Template</h1>
+        <p>A guide to help nonprofits thoughtfully implement AI tools</p>
+    </div>
+
+    <div class="container">
+        <!-- Organization Assessment -->
+        <div class="section">
+            <h2>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                </svg>
+                Organization Assessment
+            </h2>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1rem;">
+                <div class="form-group">
+                    <label for="orgName">Organization Name:</label>
+                    <input type="text" id="orgName" placeholder="Enter organization name">
+                </div>
+                <div class="form-group">
+                    <label for="orgSize">Organization Size:</label>
+                    <select id="orgSize">
+                        <option value="">Select size</option>
+                        <option value="small">Small (1-10 staff)</option>
+                        <option value="medium">Medium (11-50 staff)</option>
+                        <option value="large">Large (50+ staff)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="techLevel">Current Tech Comfort Level:</label>
+                    <select id="techLevel">
+                        <option value="">Select level</option>
+                        <option value="beginner">Beginner</option>
+                        <option value="intermediate">Intermediate</option>
+                        <option value="advanced">Advanced</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="budget">AI Implementation Budget:</label>
+                    <input type="number" id="budget" placeholder="$0" min="0" step="100">
+                </div>
+            </div>
+        </div>
+
+        <!-- Pain Points Identification -->
+        <div class="section">
+            <h2>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M11,9H13V7H11M12,20C7.59,20 4,16.41 4,12C4,7.59 7.59,4 12,4C16.41,4 20,7.59 20,12C20,16.41 16.41,20 12,20M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M11,17H13V11H11V17Z"/>
+                </svg>
+                Pain Points & Challenges
+            </h2>
+            <div class="form-group">
+                <label>Identify tasks or challenges that could benefit from AI:</label>
+                <div class="checkbox-grid">
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="pain-writing" value="writing">
+                        <label for="pain-writing">Content writing & editing</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="pain-data" value="data">
+                        <label for="pain-data">Data analysis & reporting</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="pain-admin" value="admin">
+                        <label for="pain-admin">Administrative tasks</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="pain-fundraising" value="fundraising">
+                        <label for="pain-fundraising">Fundraising & donor research</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="pain-social" value="social">
+                        <label for="pain-social">Social media management</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="pain-email" value="email">
+                        <label for="pain-email">Email marketing</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="pain-scheduling" value="scheduling">
+                        <label for="pain-scheduling">Scheduling & calendar management</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="pain-translation" value="translation">
+                        <label for="pain-translation">Translation services</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="pain-design" value="design">
+                        <label for="pain-design">Graphic design & visuals</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="pain-research" value="research">
+                        <label for="pain-research">Research & information gathering</label>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="customPainPoints">Additional Pain Points:</label>
+                <textarea id="customPainPoints" rows="4" placeholder="Describe other specific challenges your organization faces that might benefit from AI solutions"></textarea>
+            </div>
+        </div>
+
+        <!-- AI Tool Recommendations -->
+        <div class="section">
+            <h2>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M9,22A1,1 0 0,1 8,21V18H4A2,2 0 0,1 2,16V4C2,2.89 2.9,2 4,2H20A2,2 0 0,1 22,4V16A2,2 0 0,1 20,18H13.9L10.2,21.71C10,21.9 9.75,22 9.5,22H9M10,16V19.08L13.08,16H20V4H4V16H10Z"/>
+                </svg>
+                AI Tool Recommendations
+            </h2>
+            
+            <!-- Writing & Content Tools -->
+            <div class="ai-tool-card recommended">
+                <div class="tool-header">
+                    <div class="tool-name">ChatGPT / Claude</div>
+                    <div>
+                        <span class="tool-badge recommended">Recommended</span>
+                        <span class="tool-badge free">Free/Paid</span>
+                    </div>
+                </div>
+                <p><strong>Best for:</strong> Content writing, grant proposals, social media posts, email drafts</p>
+                <p><strong>Use cases:</strong> Draft newsletters, write program descriptions, create social media content, brainstorm fundraising ideas</p>
+                <p><strong>Getting started:</strong> Start with free versions, practice with simple writing tasks</p>
+            </div>
+            
+            <!-- Design Tools -->
+            <div class="ai-tool-card recommended">
+                <div class="tool-header">
+                    <div class="tool-name">Canva AI</div>
+                    <div>
+                        <span class="tool-badge recommended">Recommended</span>
+                        <span class="tool-badge free">Free/Paid</span>
+                    </div>
+                </div>
+                <p><strong>Best for:</strong> Creating graphics, social media posts, presentations, flyers</p>
+                <p><strong>Use cases:</strong> Event flyers, annual report graphics, social media visuals, presentation slides</p>
+                <p><strong>Getting started:</strong> Use AI-powered design suggestions and Magic Resize features</p>
+            </div>
+            
+            <!-- Automation Tools -->
+            <div class="ai-tool-card recommended">
+                <div class="tool-header">
+                    <div class="tool-name">Zapier</div>
+                    <div>
+                        <span class="tool-badge recommended">Recommended</span>
+                        <span class="tool-badge free">Free/Paid</span>
+                    </div>
+                </div>
+                <p><strong>Best for:</strong> Automating repetitive tasks between different software</p>
+                <p><strong>Use cases:</strong> Auto-add new donors to CRM, sync event registrations, automate social media posting</p>
+                <p><strong>Getting started:</strong> Start with simple 2-app automations</p>
+            </div>
+            
+            <!-- Email & Communication -->
+            <div class="ai-tool-card">
+                <div class="tool-header">
+                    <div class="tool-name">Mailchimp AI</div>
+                    <div>
+                        <span class="tool-badge free">Free/Paid</span>
+                    </div>
+                </div>
+                <p><strong>Best for:</strong> Email marketing optimization and content generation</p>
+                <p><strong>Use cases:</strong> Subject line optimization, send time optimization, content suggestions</p>
+                <p><strong>Getting started:</strong> Enable AI features in existing Mailchimp account</p>
+            </div>
+            
+            <!-- Data Analysis -->
+            <div class="ai-tool-card caution">
+                <div class="tool-header">
+                    <div class="tool-name">Google Analytics Intelligence</div>
+                    <div>
+                        <span class="tool-badge caution">Caution</span>
+                        <span class="tool-badge free">Free</span>
+                    </div>
+                </div>
+                <p><strong>Best for:</strong> Website analytics insights and reporting</p>
+                <p><strong>Use cases:</strong> Understanding website traffic, donor behavior analysis</p>
+                <p><strong>Caution:</strong> Requires data privacy considerations</p>
+            </div>
+        </div>
+
+        <!-- Tool Selection & Implementation -->
+        <div class="section">
+            <h2>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2M11,16.5L18,9.5L16.59,8.09L11,13.67L7.91,10.59L6.5,12L11,16.5Z"/>
+                </svg>
+                Tool Selection & Matching
+            </h2>
+            
+            <div id="toolMatching">
+                <p>Based on your selected pain points, here are recommended tools:</p>
+                <div id="recommendedTools" style="margin-top: 1rem;"></div>
+            </div>
+            
+            <div class="form-group">
+                <label for="selectedTools">Selected Tools for Implementation:</label>
+                <textarea id="selectedTools" rows="4" placeholder="List the AI tools you've decided to implement and why"></textarea>
+            </div>
+        </div>
+
+        <!-- Implementation Timeline -->
+        <div class="section">
+            <h2>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M16.2,16.2L11,13V7H12.5V12.2L17,14.9L16.2,16.2Z"/>
+                </svg>
+                Implementation Timeline
+            </h2>
+            
+            <div class="timeline-item">
+                <div style="min-width: 200px;"><strong>Phase 1 - Research:</strong></div>
+                <input type="date" id="phase1Date">
+                <input type="text" placeholder="Research and evaluate selected tools" style="flex: 1;">
+            </div>
+            
+            <div class="timeline-item">
+                <div style="min-width: 200px;"><strong>Phase 2 - Pilot Testing:</strong></div>
+                <input type="date" id="phase2Date">
+                <input type="text" placeholder="Test tools with small team or limited use" style="flex: 1;">
+            </div>
+            
+            <div class="timeline-item">
+                <div style="min-width: 200px;"><strong>Phase 3 - Training:</strong></div>
+                <input type="date" id="phase3Date">
+                <input type="text" placeholder="Train staff on selected tools" style="flex: 1;">
+            </div>
+            
+            <div class="timeline-item">
+                <div style="min-width: 200px;"><strong>Phase 4 - Full Implementation:</strong></div>
+                <input type="date" id="phase4Date">
+                <input type="text" placeholder="Roll out tools organization-wide" style="flex: 1;">
+            </div>
+            
+            <div class="timeline-item">
+                <div style="min-width: 200px;"><strong>Phase 5 - Evaluation:</strong></div>
+                <input type="date" id="phase5Date">
+                <input type="text" placeholder="Assess effectiveness and make adjustments" style="flex: 1;">
+            </div>
+        </div>
+
+        <!-- Ethical Considerations -->
+        <div class="section">
+            <h2>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12,1L3,5V11C3,16.55 6.84,21.74 12,23C17.16,21.74 21,16.55 21,11V5L12,1M10,17L6,13L7.41,11.59L10,14.17L16.59,7.58L18,9L10,17Z"/>
+                </svg>
+                Ethical Considerations & Guidelines
+            </h2>
+            
+            <div class="ethics-checklist">
+                <h4>⚠️ Important Ethical Considerations</h4>
+                <div class="checkbox-grid">
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="ethics-privacy">
+                        <label for="ethics-privacy">Data privacy protection plan in place</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="ethics-consent">
+                        <label for="ethics-consent">Client/donor consent for AI use obtained</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="ethics-transparency">
+                        <label for="ethics-transparency">Transparent about AI use in communications</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="ethics-bias">
+                        <label for="ethics-bias">Bias prevention measures considered</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="ethics-human">
+                        <label for="ethics-human">Human oversight maintained</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="ethics-accuracy">
+                        <label for="ethics-accuracy">Accuracy verification processes established</label>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="dataPrivacy">Data Privacy Plan:</label>
+                <textarea id="dataPrivacy" rows="4" placeholder="Describe how you will protect sensitive data when using AI tools (e.g., donor information, client data, financial records)"></textarea>
+            </div>
+            
+            <div class="form-group">
+                <label for="usageGuidelines">AI Usage Guidelines:</label>
+                <textarea id="usageGuidelines" rows="4" placeholder="Establish clear guidelines for staff on appropriate AI use (e.g., what can/cannot be automated, review requirements, etc.)"></textarea>
+            </div>
+        </div>
+
+        <!-- Evaluation & Success Metrics -->
+        <div class="section">
+            <h2>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M16,6L18.29,8.29L13.41,13.17L9.41,9.17L2,16.59L3.41,18L9.41,12L13.41,16L19.71,9.71L22,12V6H16Z"/>
+                </svg>
+                Evaluation & Success Metrics
+            </h2>
+            
+            <div class="form-group">
+                <label for="successMetrics">Success Metrics:</label>
+                <textarea id="successMetrics" rows="4" placeholder="How will you measure the success of AI implementation? (e.g., time saved, quality improvements, cost reductions, staff satisfaction)"></textarea>
+            </div>
+            
+            <div class="form-group">
+                <label for="evaluationSchedule">Evaluation Schedule:</label>
+                <textarea id="evaluationSchedule" rows="3" placeholder="When and how often will you evaluate AI tool effectiveness? (e.g., monthly check-ins, quarterly reviews)"></textarea>
+            </div>
+            
+            <div class="form-group">
+                <label for="improvementAreas">Areas for Improvement:</label>
+                <textarea id="improvementAreas" rows="4" placeholder="What areas need improvement and how might AI help? What are the potential risks or limitations?"></textarea>
+            </div>
+        </div>
+
+        <div style="text-align: center; margin: 2rem 0;">
+            <button type="button" class="btn" onclick="saveAIPlan()">Save AI Plan</button>
+            <button type="button" class="btn btn-secondary" onclick="loadAIPlan()">Load Saved Plan</button>
+            <button type="button" class="btn" onclick="exportAIPlan()">Export to PDF</button>
+            <button type="button" class="btn btn-secondary" onclick="clearAIPlan()">Clear All</button>
+        </div>
+    </div>
+
+    <button class="btn print-btn" onclick="window.print()">Print AI Plan</button>
+
+    <div class="footer">
+        <p>&copy; 2025 ASCEND Nonprofits. Empowering nonprofits from vision to victory.</p>
+    </div>
+
+    <script>
+        // Tool recommendations based on pain points
+        const toolRecommendations = {
+            'writing': ['ChatGPT/Claude for content creation', 'Grammarly for editing'],
+            'data': ['Google Analytics Intelligence', 'Microsoft Excel AI features'],
+            'admin': ['Zapier for automation', 'Calendly for scheduling'],
+            'fundraising': ['ChatGPT for donor research', 'Mailchimp AI for campaigns'],
+            'social': ['Canva AI for graphics', 'Buffer for scheduling'],
+            'email': ['Mailchimp AI', 'Constant Contact AI features'],
+            'scheduling': ['Calendly', 'Zapier automation'],
+            'translation': ['Google Translate API', 'DeepL'],
+            'design': ['Canva AI', 'Adobe Creative Suite AI'],
+            'research': ['ChatGPT for research assistance', 'Perplexity AI']
+        };
+        
+        // Update tool recommendations based on selected pain points
+        function updateToolRecommendations() {
+            const selectedPainPoints = [];
+            document.querySelectorAll('input[id^="pain-"]:checked').forEach(checkbox => {
+                selectedPainPoints.push(checkbox.value);
+            });
+            
+            const recommendedToolsDiv = document.getElementById('recommendedTools');
+            recommendedToolsDiv.innerHTML = '';
+            
+            if (selectedPainPoints.length === 0) {
+                recommendedToolsDiv.innerHTML = '<p>Select pain points above to see tool recommendations.</p>';
+                return;
+            }
+            
+            const recommendations = new Set();
+            selectedPainPoints.forEach(painPoint => {
+                if (toolRecommendations[painPoint]) {
+                    toolRecommendations[painPoint].forEach(tool => recommendations.add(tool));
+                }
+            });
+            
+            if (recommendations.size > 0) {
+                const list = document.createElement('ul');
+                list.style.listStyle = 'none';
+                list.style.padding = '0';
+                
+                recommendations.forEach(tool => {
+                    const listItem = document.createElement('li');
+                    listItem.style.padding = '0.5rem';
+                    listItem.style.background = '#e3f2fd';
+                    listItem.style.margin = '0.25rem 0';
+                    listItem.style.borderRadius = '4px';
+                    listItem.style.borderLeft = '4px solid #2196f3';
+                    listItem.textContent = '• ' + tool;
+                    list.appendChild(listItem);
+                });
+                
+                recommendedToolsDiv.appendChild(list);
+            }
+        }
+        
+        // Add event listeners to pain point checkboxes
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('input[id^="pain-"]').forEach(checkbox => {
+                checkbox.addEventListener('change', function() {
+                    if (this.checked) {
+                        this.closest('.checkbox-item').classList.add('selected');
+                    } else {
+                        this.closest('.checkbox-item').classList.remove('selected');
+                    }
+                    updateToolRecommendations();
+                });
+            });
+            
+            // Load saved data
+            loadAIPlan();
+        });
+        
+        function saveAIPlan() {
+            const data = {
+                organization: {
+                    orgName: document.getElementById('orgName').value,
+                    orgSize: document.getElementById('orgSize').value,
+                    techLevel: document.getElementById('techLevel').value,
+                    budget: document.getElementById('budget').value
+                },
+                painPoints: [],
+                customPainPoints: document.getElementById('customPainPoints').value,
+                selectedTools: document.getElementById('selectedTools').value,
+                timeline: {
+                    phase1Date: document.getElementById('phase1Date').value,
+                    phase2Date: document.getElementById('phase2Date').value,
+                    phase3Date: document.getElementById('phase3Date').value,
+                    phase4Date: document.getElementById('phase4Date').value,
+                    phase5Date: document.getElementById('phase5Date').value
+                },
+                ethics: {
+                    dataPrivacy: document.getElementById('dataPrivacy').value,
+                    usageGuidelines: document.getElementById('usageGuidelines').value,
+                    ethicsChecklist: []
+                },
+                evaluation: {
+                    successMetrics: document.getElementById('successMetrics').value,
+                    evaluationSchedule: document.getElementById('evaluationSchedule').value,
+                    improvementAreas: document.getElementById('improvementAreas').value
+                }
+            };
+            
+            // Save selected pain points
+            document.querySelectorAll('input[id^="pain-"]:checked').forEach(checkbox => {
+                data.painPoints.push(checkbox.value);
+            });
+            
+            // Save ethics checklist
+            document.querySelectorAll('input[id^="ethics-"]:checked').forEach(checkbox => {
+                data.ethics.ethicsChecklist.push(checkbox.id);
+            });
+            
+            localStorage.setItem('aiPlanningData', JSON.stringify(data));
+            alert('AI plan saved successfully!');
+        }
+        
+        function loadAIPlan() {
+            const savedData = localStorage.getItem('aiPlanningData');
+            if (savedData) {
+                const data = JSON.parse(savedData);
+                
+                // Load organization data
+                if (data.organization) {
+                    document.getElementById('orgName').value = data.organization.orgName || '';
+                    document.getElementById('orgSize').value = data.organization.orgSize || '';
+                    document.getElementById('techLevel').value = data.organization.techLevel || '';
+                    document.getElementById('budget').value = data.organization.budget || '';
+                }
+                
+                // Load pain points
+                if (data.painPoints) {
+                    data.painPoints.forEach(painPoint => {
+                        const checkbox = document.getElementById(`pain-${painPoint}`);
+                        if (checkbox) {
+                            checkbox.checked = true;
+                            checkbox.closest('.checkbox-item').classList.add('selected');
+                        }
+                    });
+                    updateToolRecommendations();
+                }
+                
+                document.getElementById('customPainPoints').value = data.customPainPoints || '';
+                document.getElementById('selectedTools').value = data.selectedTools || '';
+                
+                // Load timeline
+                if (data.timeline) {
+                    document.getElementById('phase1Date').value = data.timeline.phase1Date || '';
+                    document.getElementById('phase2Date').value = data.timeline.phase2Date || '';
+                    document.getElementById('phase3Date').value = data.timeline.phase3Date || '';
+                    document.getElementById('phase4Date').value = data.timeline.phase4Date || '';
+                    document.getElementById('phase5Date').value = data.timeline.phase5Date || '';
+                }
+                
+                // Load ethics data
+                if (data.ethics) {
+                    document.getElementById('dataPrivacy').value = data.ethics.dataPrivacy || '';
+                    document.getElementById('usageGuidelines').value = data.ethics.usageGuidelines || '';
+                    
+                    if (data.ethics.ethicsChecklist) {
+                        data.ethics.ethicsChecklist.forEach(checkboxId => {
+                            const checkbox = document.getElementById(checkboxId);
+                            if (checkbox) checkbox.checked = true;
+                        });
+                    }
+                }
+                
+                // Load evaluation data
+                if (data.evaluation) {
+                    document.getElementById('successMetrics').value = data.evaluation.successMetrics || '';
+                    document.getElementById('evaluationSchedule').value = data.evaluation.evaluationSchedule || '';
+                    document.getElementById('improvementAreas').value = data.evaluation.improvementAreas || '';
+                }
+            }
+        }
+        
+        function clearAIPlan() {
+            if (confirm('Are you sure you want to clear all data?')) {
+                // Clear form fields
+                document.getElementById('orgName').value = '';
+                document.getElementById('orgSize').value = '';
+                document.getElementById('techLevel').value = '';
+                document.getElementById('budget').value = '';
+                document.getElementById('customPainPoints').value = '';
+                document.getElementById('selectedTools').value = '';
+                document.getElementById('phase1Date').value = '';
+                document.getElementById('phase2Date').value = '';
+                document.getElementById('phase3Date').value = '';
+                document.getElementById('phase4Date').value = '';
+                document.getElementById('phase5Date').value = '';
+                document.getElementById('dataPrivacy').value = '';
+                document.getElementById('usageGuidelines').value = '';
+                document.getElementById('successMetrics').value = '';
+                document.getElementById('evaluationSchedule').value = '';
+                document.getElementById('improvementAreas').value = '';
+                
+                // Clear checkboxes
+                document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+                    checkbox.checked = false;
+                    checkbox.closest('.checkbox-item')?.classList.remove('selected');
+                });
+                
+                updateToolRecommendations();
+                localStorage.removeItem('aiPlanningData');
+            }
+        }
+        
+        function exportAIPlan() {
+            window.print();
+        }
+        
+        // Auto-save every 30 seconds
+        setInterval(function() {
+            const hasData = document.getElementById('orgName').value.trim() !== '' ||
+                           document.querySelector('input[id^="pain-"]:checked') !== null;
+            
+            if (hasData) {
+                saveAIPlan();
+            }
+        }, 30000);
+    </script>
+</body>
+</html>

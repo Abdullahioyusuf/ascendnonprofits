@@ -1,0 +1,902 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Budget Planner - ASCEND Nonprofits</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+            color: #000000;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #C1272D 0%, #8B1A1F 100%);
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(193, 39, 45, 0.3);
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+        
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .budget-summary {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .summary-card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            border-left: 4px solid;
+        }
+        
+        .summary-card.income {
+            border-left-color: #28a745;
+        }
+        
+        .summary-card.expenses {
+            border-left-color: #dc3545;
+        }
+        
+        .summary-card.net {
+            border-left-color: #C1272D;
+        }
+        
+        .summary-card h3 {
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+            color: #666;
+        }
+        
+        .summary-card .amount {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+        
+        .summary-card.income .amount {
+            color: #28a745;
+        }
+        
+        .summary-card.expenses .amount {
+            color: #dc3545;
+        }
+        
+        .summary-card.net .amount {
+            color: #C1272D;
+        }
+        
+        .section {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            border-left: 4px solid #C1272D;
+        }
+        
+        .section h2 {
+            color: #C1272D;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .budget-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+        
+        .budget-table th,
+        .budget-table td {
+            padding: 0.75rem;
+            text-align: left;
+            border-bottom: 1px solid #e9ecef;
+        }
+        
+        .budget-table th {
+            background: #f8f9fa;
+            font-weight: bold;
+            color: #000;
+        }
+        
+        .budget-table input {
+            width: 100%;
+            padding: 0.5rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 0.9rem;
+        }
+        
+        .budget-table input:focus {
+            outline: none;
+            border-color: #C1272D;
+            box-shadow: 0 0 0 2px rgba(193, 39, 45, 0.1);
+        }
+        
+        .budget-table .amount-input {
+            text-align: right;
+        }
+        
+        .add-row-btn {
+            background: #C1272D;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 1rem;
+            font-size: 0.9rem;
+        }
+        
+        .add-row-btn:hover {
+            background: #8B1A1F;
+        }
+        
+        .remove-row {
+            background: #dc3545;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 25px;
+            height: 25px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+        
+        .remove-row:hover {
+            background: #c82333;
+        }
+        
+        .total-row {
+            background: #f8f9fa;
+            font-weight: bold;
+        }
+        
+        .total-row td {
+            border-top: 2px solid #C1272D;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            color: #000000;
+        }
+        
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+        
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #C1272D;
+            box-shadow: 0 0 0 3px rgba(193, 39, 45, 0.1);
+        }
+        
+        .btn {
+            background: linear-gradient(135deg, #C1272D 0%, #8B1A1F 100%);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-right: 1rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(193, 39, 45, 0.3);
+        }
+        
+        .btn-secondary {
+            background: linear-gradient(135deg, #000000 0%, #333333 100%);
+        }
+        
+        .btn-secondary:hover {
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        .cash-flow-chart {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            border-left: 4px solid #C1272D;
+        }
+        
+        .month-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .month-column {
+            text-align: center;
+        }
+        
+        .month-column h4 {
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+            color: #666;
+        }
+        
+        .month-column input {
+            width: 100%;
+            padding: 0.5rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            text-align: center;
+            font-size: 0.8rem;
+        }
+        
+        .footer {
+            background: #000000;
+            color: white;
+            text-align: center;
+            padding: 2rem;
+            margin-top: 3rem;
+        }
+        
+        .footer p {
+            opacity: 0.8;
+        }
+        
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .container {
+                padding: 1rem;
+            }
+            
+            .section {
+                padding: 1.5rem;
+            }
+            
+            .budget-table {
+                font-size: 0.8rem;
+            }
+            
+            .budget-table th,
+            .budget-table td {
+                padding: 0.5rem;
+            }
+        }
+        
+        .print-btn {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            z-index: 1000;
+        }
+        
+        @media print {
+            .print-btn, .btn, .add-row-btn, .remove-row {
+                display: none;
+            }
+            
+            .header {
+                background: #C1272D !important;
+                -webkit-print-color-adjust: exact;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Budget Planner</h1>
+        <p>A detailed tool to track your program and organizational finances</p>
+    </div>
+
+    <div class="container">
+        <!-- Budget Summary -->
+        <div class="budget-summary">
+            <div class="summary-card income">
+                <h3>Total Income</h3>
+                <div class="amount" id="totalIncome">$0</div>
+                <p>All revenue sources</p>
+            </div>
+            <div class="summary-card expenses">
+                <h3>Total Expenses</h3>
+                <div class="amount" id="totalExpenses">$0</div>
+                <p>All costs and expenditures</p>
+            </div>
+            <div class="summary-card net">
+                <h3>Net Balance</h3>
+                <div class="amount" id="netBalance">$0</div>
+                <p>Income minus expenses</p>
+            </div>
+        </div>
+
+        <!-- Organization Information -->
+        <div class="section">
+            <h2>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                </svg>
+                Budget Information
+            </h2>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1rem;">
+                <div class="form-group">
+                    <label for="orgName">Organization Name:</label>
+                    <input type="text" id="orgName" placeholder="Enter organization name">
+                </div>
+                <div class="form-group">
+                    <label for="budgetPeriod">Budget Period:</label>
+                    <input type="text" id="budgetPeriod" placeholder="e.g., FY 2025, Jan-Dec 2025">
+                </div>
+                <div class="form-group">
+                    <label for="budgetType">Budget Type:</label>
+                    <input type="text" id="budgetType" placeholder="e.g., Annual Operating, Project Budget">
+                </div>
+                <div class="form-group">
+                    <label for="preparedBy">Prepared By:</label>
+                    <input type="text" id="preparedBy" placeholder="Your name">
+                </div>
+            </div>
+        </div>
+
+        <!-- Income Sources -->
+        <div class="section">
+            <h2>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M7,15H9C9,16.08 10.37,17 12,17C13.63,17 15,16.08 15,15C15,13.9 13.96,13.5 11.76,12.97C9.64,12.44 7,11.78 7,9C7,7.21 8.47,5.69 10.5,5.18V3H13.5V5.18C15.53,5.69 17,7.21 17,9H15C15,7.92 13.63,7 12,7C10.37,7 9,7.92 9,9C9,10.1 10.04,10.5 12.24,11.03C14.36,11.56 17,12.22 17,15C17,16.79 15.53,18.31 13.5,18.82V21H10.5V18.82C8.47,18.31 7,16.79 7,15Z"/>
+                </svg>
+                Income Sources
+            </h2>
+            <table class="budget-table" id="incomeTable">
+                <thead>
+                    <tr>
+                        <th>Income Source</th>
+                        <th>Description</th>
+                        <th>Amount</th>
+                        <th>Notes</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><input type="text" placeholder="e.g., Foundation Grants"></td>
+                        <td><input type="text" placeholder="Grant details"></td>
+                        <td><input type="number" class="amount-input" placeholder="0" step="0.01" onchange="calculateTotals()"></td>
+                        <td><input type="text" placeholder="Additional notes"></td>
+                        <td><button class="remove-row" onclick="removeRow(this)">×</button></td>
+                    </tr>
+                    <tr>
+                        <td><input type="text" placeholder="e.g., Individual Donations"></td>
+                        <td><input type="text" placeholder="Donation details"></td>
+                        <td><input type="number" class="amount-input" placeholder="0" step="0.01" onchange="calculateTotals()"></td>
+                        <td><input type="text" placeholder="Additional notes"></td>
+                        <td><button class="remove-row" onclick="removeRow(this)">×</button></td>
+                    </tr>
+                    <tr>
+                        <td><input type="text" placeholder="e.g., Government Funding"></td>
+                        <td><input type="text" placeholder="Funding details"></td>
+                        <td><input type="number" class="amount-input" placeholder="0" step="0.01" onchange="calculateTotals()"></td>
+                        <td><input type="text" placeholder="Additional notes"></td>
+                        <td><button class="remove-row" onclick="removeRow(this)">×</button></td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr class="total-row">
+                        <td colspan="2"><strong>Total Income</strong></td>
+                        <td><strong id="incomeTotal">$0.00</strong></td>
+                        <td colspan="2"></td>
+                    </tr>
+                </tfoot>
+            </table>
+            <button class="add-row-btn" onclick="addIncomeRow()">+ Add Income Source</button>
+        </div>
+
+        <!-- Expense Categories -->
+        <div class="section">
+            <h2>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M7,15H9C9,16.08 10.37,17 12,17C13.63,17 15,16.08 15,15C15,13.9 13.96,13.5 11.76,12.97C9.64,12.44 7,11.78 7,9C7,7.21 8.47,5.69 10.5,5.18V3H13.5V5.18C15.53,5.69 17,7.21 17,9H15C15,7.92 13.63,7 12,7C10.37,7 9,7.92 9,9C9,10.1 10.04,10.5 12.24,11.03C14.36,11.56 17,12.22 17,15C17,16.79 15.53,18.31 13.5,18.82V21H10.5V18.82C8.47,18.31 7,16.79 7,15Z"/>
+                </svg>
+                Expense Categories
+            </h2>
+            <table class="budget-table" id="expenseTable">
+                <thead>
+                    <tr>
+                        <th>Expense Category</th>
+                        <th>Description</th>
+                        <th>Amount</th>
+                        <th>Notes</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><input type="text" placeholder="e.g., Personnel"></td>
+                        <td><input type="text" placeholder="Salaries, benefits"></td>
+                        <td><input type="number" class="amount-input" placeholder="0" step="0.01" onchange="calculateTotals()"></td>
+                        <td><input type="text" placeholder="Additional notes"></td>
+                        <td><button class="remove-row" onclick="removeRow(this)">×</button></td>
+                    </tr>
+                    <tr>
+                        <td><input type="text" placeholder="e.g., Program Costs"></td>
+                        <td><input type="text" placeholder="Direct program expenses"></td>
+                        <td><input type="number" class="amount-input" placeholder="0" step="0.01" onchange="calculateTotals()"></td>
+                        <td><input type="text" placeholder="Additional notes"></td>
+                        <td><button class="remove-row" onclick="removeRow(this)">×</button></td>
+                    </tr>
+                    <tr>
+                        <td><input type="text" placeholder="e.g., Administrative"></td>
+                        <td><input type="text" placeholder="Office, utilities, etc."></td>
+                        <td><input type="number" class="amount-input" placeholder="0" step="0.01" onchange="calculateTotals()"></td>
+                        <td><input type="text" placeholder="Additional notes"></td>
+                        <td><button class="remove-row" onclick="removeRow(this)">×</button></td>
+                    </tr>
+                    <tr>
+                        <td><input type="text" placeholder="e.g., Fundraising"></td>
+                        <td><input type="text" placeholder="Marketing, events"></td>
+                        <td><input type="number" class="amount-input" placeholder="0" step="0.01" onchange="calculateTotals()"></td>
+                        <td><input type="text" placeholder="Additional notes"></td>
+                        <td><button class="remove-row" onclick="removeRow(this)">×</button></td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr class="total-row">
+                        <td colspan="2"><strong>Total Expenses</strong></td>
+                        <td><strong id="expenseTotal">$0.00</strong></td>
+                        <td colspan="2"></td>
+                    </tr>
+                </tfoot>
+            </table>
+            <button class="add-row-btn" onclick="addExpenseRow()">+ Add Expense Category</button>
+        </div>
+
+        <!-- Assumptions and Notes -->
+        <div class="section">
+            <h2>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M14,10H19.5L14,4.5V10M5,3H15L21,9V19A2,2 0 0,1 19,21H5C3.89,21 3,20.1 3,19V5C3,3.89 3.89,3 5,3M9,12H16V14H9V12M9,16H14V18H9V16Z"/>
+                </svg>
+                Assumptions and Notes
+            </h2>
+            <div class="form-group">
+                <label for="assumptions">Budget Assumptions:</label>
+                <textarea id="assumptions" rows="4" placeholder="Explain the rationale behind your budget estimates (e.g., salary increases, inflation rates, growth projections)"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="budgetNotes">Additional Notes:</label>
+                <textarea id="budgetNotes" rows="4" placeholder="Any other important information about this budget"></textarea>
+            </div>
+        </div>
+
+        <!-- Monthly Cash Flow -->
+        <div class="cash-flow-chart">
+            <h2 style="color: #C1272D; margin-bottom: 1rem;">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M16,6L18.29,8.29L13.41,13.17L9.41,9.17L2,16.59L3.41,18L9.41,12L13.41,16L19.71,9.71L22,12V6H16Z"/>
+                </svg>
+                Monthly Cash Flow Tracking
+            </h2>
+            <p style="margin-bottom: 1rem; color: #666;">Track monthly income and expenses to ensure financial health and avoid cash flow gaps</p>
+            
+            <div class="month-grid">
+                <div class="month-column">
+                    <h4>Jan</h4>
+                    <input type="number" placeholder="Income" class="monthly-income" step="0.01" onchange="calculateMonthlyCashFlow()">
+                    <input type="number" placeholder="Expenses" class="monthly-expense" step="0.01" onchange="calculateMonthlyCashFlow()">
+                    <div class="monthly-net" style="font-weight: bold; margin-top: 0.5rem; font-size: 0.9rem;">$0</div>
+                </div>
+                <div class="month-column">
+                    <h4>Feb</h4>
+                    <input type="number" placeholder="Income" class="monthly-income" step="0.01" onchange="calculateMonthlyCashFlow()">
+                    <input type="number" placeholder="Expenses" class="monthly-expense" step="0.01" onchange="calculateMonthlyCashFlow()">
+                    <div class="monthly-net" style="font-weight: bold; margin-top: 0.5rem; font-size: 0.9rem;">$0</div>
+                </div>
+                <div class="month-column">
+                    <h4>Mar</h4>
+                    <input type="number" placeholder="Income" class="monthly-income" step="0.01" onchange="calculateMonthlyCashFlow()">
+                    <input type="number" placeholder="Expenses" class="monthly-expense" step="0.01" onchange="calculateMonthlyCashFlow()">
+                    <div class="monthly-net" style="font-weight: bold; margin-top: 0.5rem; font-size: 0.9rem;">$0</div>
+                </div>
+                <div class="month-column">
+                    <h4>Apr</h4>
+                    <input type="number" placeholder="Income" class="monthly-income" step="0.01" onchange="calculateMonthlyCashFlow()">
+                    <input type="number" placeholder="Expenses" class="monthly-expense" step="0.01" onchange="calculateMonthlyCashFlow()">
+                    <div class="monthly-net" style="font-weight: bold; margin-top: 0.5rem; font-size: 0.9rem;">$0</div>
+                </div>
+                <div class="month-column">
+                    <h4>May</h4>
+                    <input type="number" placeholder="Income" class="monthly-income" step="0.01" onchange="calculateMonthlyCashFlow()">
+                    <input type="number" placeholder="Expenses" class="monthly-expense" step="0.01" onchange="calculateMonthlyCashFlow()">
+                    <div class="monthly-net" style="font-weight: bold; margin-top: 0.5rem; font-size: 0.9rem;">$0</div>
+                </div>
+                <div class="month-column">
+                    <h4>Jun</h4>
+                    <input type="number" placeholder="Income" class="monthly-income" step="0.01" onchange="calculateMonthlyCashFlow()">
+                    <input type="number" placeholder="Expenses" class="monthly-expense" step="0.01" onchange="calculateMonthlyCashFlow()">
+                    <div class="monthly-net" style="font-weight: bold; margin-top: 0.5rem; font-size: 0.9rem;">$0</div>
+                </div>
+                <div class="month-column">
+                    <h4>Jul</h4>
+                    <input type="number" placeholder="Income" class="monthly-income" step="0.01" onchange="calculateMonthlyCashFlow()">
+                    <input type="number" placeholder="Expenses" class="monthly-expense" step="0.01" onchange="calculateMonthlyCashFlow()">
+                    <div class="monthly-net" style="font-weight: bold; margin-top: 0.5rem; font-size: 0.9rem;">$0</div>
+                </div>
+                <div class="month-column">
+                    <h4>Aug</h4>
+                    <input type="number" placeholder="Income" class="monthly-income" step="0.01" onchange="calculateMonthlyCashFlow()">
+                    <input type="number" placeholder="Expenses" class="monthly-expense" step="0.01" onchange="calculateMonthlyCashFlow()">
+                    <div class="monthly-net" style="font-weight: bold; margin-top: 0.5rem; font-size: 0.9rem;">$0</div>
+                </div>
+                <div class="month-column">
+                    <h4>Sep</h4>
+                    <input type="number" placeholder="Income" class="monthly-income" step="0.01" onchange="calculateMonthlyCashFlow()">
+                    <input type="number" placeholder="Expenses" class="monthly-expense" step="0.01" onchange="calculateMonthlyCashFlow()">
+                    <div class="monthly-net" style="font-weight: bold; margin-top: 0.5rem; font-size: 0.9rem;">$0</div>
+                </div>
+                <div class="month-column">
+                    <h4>Oct</h4>
+                    <input type="number" placeholder="Income" class="monthly-income" step="0.01" onchange="calculateMonthlyCashFlow()">
+                    <input type="number" placeholder="Expenses" class="monthly-expense" step="0.01" onchange="calculateMonthlyCashFlow()">
+                    <div class="monthly-net" style="font-weight: bold; margin-top: 0.5rem; font-size: 0.9rem;">$0</div>
+                </div>
+                <div class="month-column">
+                    <h4>Nov</h4>
+                    <input type="number" placeholder="Income" class="monthly-income" step="0.01" onchange="calculateMonthlyCashFlow()">
+                    <input type="number" placeholder="Expenses" class="monthly-expense" step="0.01" onchange="calculateMonthlyCashFlow()">
+                    <div class="monthly-net" style="font-weight: bold; margin-top: 0.5rem; font-size: 0.9rem;">$0</div>
+                </div>
+                <div class="month-column">
+                    <h4>Dec</h4>
+                    <input type="number" placeholder="Income" class="monthly-income" step="0.01" onchange="calculateMonthlyCashFlow()">
+                    <input type="number" placeholder="Expenses" class="monthly-expense" step="0.01" onchange="calculateMonthlyCashFlow()">
+                    <div class="monthly-net" style="font-weight: bold; margin-top: 0.5rem; font-size: 0.9rem;">$0</div>
+                </div>
+            </div>
+        </div>
+
+        <div style="text-align: center; margin: 2rem 0;">
+            <button type="button" class="btn" onclick="saveBudget()">Save Budget</button>
+            <button type="button" class="btn btn-secondary" onclick="loadBudget()">Load Saved Budget</button>
+            <button type="button" class="btn" onclick="exportBudget()">Export to PDF</button>
+            <button type="button" class="btn btn-secondary" onclick="clearBudget()">Clear All</button>
+        </div>
+    </div>
+
+    <button class="btn print-btn" onclick="window.print()">Print Budget</button>
+
+    <div class="footer">
+        <p>&copy; 2025 ASCEND Nonprofits. Empowering nonprofits from vision to victory.</p>
+    </div>
+
+    <script>
+        function addIncomeRow() {
+            const tbody = document.querySelector('#incomeTable tbody');
+            const newRow = document.createElement('tr');
+            newRow.innerHTML = `
+                <td><input type="text" placeholder="Income source"></td>
+                <td><input type="text" placeholder="Description"></td>
+                <td><input type="number" class="amount-input" placeholder="0" step="0.01" onchange="calculateTotals()"></td>
+                <td><input type="text" placeholder="Notes"></td>
+                <td><button class="remove-row" onclick="removeRow(this)">×</button></td>
+            `;
+            tbody.appendChild(newRow);
+        }
+        
+        function addExpenseRow() {
+            const tbody = document.querySelector('#expenseTable tbody');
+            const newRow = document.createElement('tr');
+            newRow.innerHTML = `
+                <td><input type="text" placeholder="Expense category"></td>
+                <td><input type="text" placeholder="Description"></td>
+                <td><input type="number" class="amount-input" placeholder="0" step="0.01" onchange="calculateTotals()"></td>
+                <td><input type="text" placeholder="Notes"></td>
+                <td><button class="remove-row" onclick="removeRow(this)">×</button></td>
+            `;
+            tbody.appendChild(newRow);
+        }
+        
+        function removeRow(button) {
+            button.closest('tr').remove();
+            calculateTotals();
+        }
+        
+        function calculateTotals() {
+            // Calculate income total
+            const incomeInputs = document.querySelectorAll('#incomeTable tbody .amount-input');
+            let incomeTotal = 0;
+            incomeInputs.forEach(input => {
+                incomeTotal += parseFloat(input.value) || 0;
+            });
+            
+            // Calculate expense total
+            const expenseInputs = document.querySelectorAll('#expenseTable tbody .amount-input');
+            let expenseTotal = 0;
+            expenseInputs.forEach(input => {
+                expenseTotal += parseFloat(input.value) || 0;
+            });
+            
+            // Update displays
+            document.getElementById('incomeTotal').textContent = '$' + incomeTotal.toFixed(2);
+            document.getElementById('expenseTotal').textContent = '$' + expenseTotal.toFixed(2);
+            document.getElementById('totalIncome').textContent = '$' + incomeTotal.toLocaleString();
+            document.getElementById('totalExpenses').textContent = '$' + expenseTotal.toLocaleString();
+            
+            const netBalance = incomeTotal - expenseTotal;
+            document.getElementById('netBalance').textContent = '$' + netBalance.toLocaleString();
+            
+            // Color code the net balance
+            const netElement = document.getElementById('netBalance');
+            if (netBalance > 0) {
+                netElement.style.color = '#28a745';
+            } else if (netBalance < 0) {
+                netElement.style.color = '#dc3545';
+            } else {
+                netElement.style.color = '#C1272D';
+            }
+        }
+        
+        function calculateMonthlyCashFlow() {
+            const monthColumns = document.querySelectorAll('.month-column');
+            monthColumns.forEach(column => {
+                const incomeInput = column.querySelector('.monthly-income');
+                const expenseInput = column.querySelector('.monthly-expense');
+                const netDiv = column.querySelector('.monthly-net');
+                
+                const income = parseFloat(incomeInput.value) || 0;
+                const expense = parseFloat(expenseInput.value) || 0;
+                const net = income - expense;
+                
+                netDiv.textContent = '$' + net.toLocaleString();
+                
+                if (net > 0) {
+                    netDiv.style.color = '#28a745';
+                } else if (net < 0) {
+                    netDiv.style.color = '#dc3545';
+                } else {
+                    netDiv.style.color = '#000';
+                }
+            });
+        }
+        
+        function saveBudget() {
+            const data = {
+                orgInfo: {
+                    orgName: document.getElementById('orgName').value,
+                    budgetPeriod: document.getElementById('budgetPeriod').value,
+                    budgetType: document.getElementById('budgetType').value,
+                    preparedBy: document.getElementById('preparedBy').value
+                },
+                assumptions: document.getElementById('assumptions').value,
+                budgetNotes: document.getElementById('budgetNotes').value,
+                income: [],
+                expenses: [],
+                monthlyData: []
+            };
+            
+            // Save income data
+            const incomeRows = document.querySelectorAll('#incomeTable tbody tr');
+            incomeRows.forEach(row => {
+                const inputs = row.querySelectorAll('input');
+                if (inputs.length >= 4) {
+                    data.income.push({
+                        source: inputs[0].value,
+                        description: inputs[1].value,
+                        amount: inputs[2].value,
+                        notes: inputs[3].value
+                    });
+                }
+            });
+            
+            // Save expense data
+            const expenseRows = document.querySelectorAll('#expenseTable tbody tr');
+            expenseRows.forEach(row => {
+                const inputs = row.querySelectorAll('input');
+                if (inputs.length >= 4) {
+                    data.expenses.push({
+                        category: inputs[0].value,
+                        description: inputs[1].value,
+                        amount: inputs[2].value,
+                        notes: inputs[3].value
+                    });
+                }
+            });
+            
+            // Save monthly data
+            const monthColumns = document.querySelectorAll('.month-column');
+            monthColumns.forEach((column, index) => {
+                const incomeInput = column.querySelector('.monthly-income');
+                const expenseInput = column.querySelector('.monthly-expense');
+                data.monthlyData.push({
+                    month: index,
+                    income: incomeInput.value,
+                    expense: expenseInput.value
+                });
+            });
+            
+            localStorage.setItem('budgetData', JSON.stringify(data));
+            alert('Budget saved successfully!');
+        }
+        
+        function loadBudget() {
+            const savedData = localStorage.getItem('budgetData');
+            if (savedData) {
+                const data = JSON.parse(savedData);
+                
+                // Load organization info
+                if (data.orgInfo) {
+                    document.getElementById('orgName').value = data.orgInfo.orgName || '';
+                    document.getElementById('budgetPeriod').value = data.orgInfo.budgetPeriod || '';
+                    document.getElementById('budgetType').value = data.orgInfo.budgetType || '';
+                    document.getElementById('preparedBy').value = data.orgInfo.preparedBy || '';
+                }
+                
+                document.getElementById('assumptions').value = data.assumptions || '';
+                document.getElementById('budgetNotes').value = data.budgetNotes || '';
+                
+                // Load income data
+                if (data.income) {
+                    const incomeTableBody = document.querySelector('#incomeTable tbody');
+                    incomeTableBody.innerHTML = '';
+                    data.income.forEach(item => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td><input type="text" value="${item.source}"></td>
+                            <td><input type="text" value="${item.description}"></td>
+                            <td><input type="number" class="amount-input" value="${item.amount}" step="0.01" onchange="calculateTotals()"></td>
+                            <td><input type="text" value="${item.notes}"></td>
+                            <td><button class="remove-row" onclick="removeRow(this)">×</button></td>
+                        `;
+                        incomeTableBody.appendChild(row);
+                    });
+                }
+                
+                // Load expense data
+                if (data.expenses) {
+                    const expenseTableBody = document.querySelector('#expenseTable tbody');
+                    expenseTableBody.innerHTML = '';
+                    data.expenses.forEach(item => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td><input type="text" value="${item.category}"></td>
+                            <td><input type="text" value="${item.description}"></td>
+                            <td><input type="number" class="amount-input" value="${item.amount}" step="0.01" onchange="calculateTotals()"></td>
+                            <td><input type="text" value="${item.notes}"></td>
+                            <td><button class="remove-row" onclick="removeRow(this)">×</button></td>
+                        `;
+                        expenseTableBody.appendChild(row);
+                    });
+                }
+                
+                // Load monthly data
+                if (data.monthlyData) {
+                    const monthColumns = document.querySelectorAll('.month-column');
+                    data.monthlyData.forEach((monthData, index) => {
+                        if (monthColumns[index]) {
+                            const incomeInput = monthColumns[index].querySelector('.monthly-income');
+                            const expenseInput = monthColumns[index].querySelector('.monthly-expense');
+                            incomeInput.value = monthData.income || '';
+                            expenseInput.value = monthData.expense || '';
+                        }
+                    });
+                }
+                
+                calculateTotals();
+                calculateMonthlyCashFlow();
+                alert('Budget loaded successfully!');
+            } else {
+                alert('No saved budget found.');
+            }
+        }
+        
+        function clearBudget() {
+            if (confirm('Are you sure you want to clear all budget data?')) {
+                // Clear form fields
+                document.getElementById('orgName').value = '';
+                document.getElementById('budgetPeriod').value = '';
+                document.getElementById('budgetType').value = '';
+                document.getElementById('preparedBy').value = '';
+                document.getElementById('assumptions').value = '';
+                document.getElementById('budgetNotes').value = '';
+                
+                // Reset tables
+                document.querySelector('#incomeTable tbody').innerHTML = `
+                    <tr>
+                        <td><input type="text" placeholder="e.g., Foundation Grants"></td>
+                        <td><input type="text" placeholder="Grant details"></td>
+                        <td><input type="number" class="amount-input" placeholder="0" step="0.01" onchange="calculateTotals()"></td>
+                        <td><input type="text" placeholder="Additional notes"></td>
+                        <td><button class="remove-row" onclick="removeRow(this)">×</button></td>
+                    </tr>
+                `;
+                
+                document.querySelector('#expenseTable tbody').innerHTML = `
+                    <tr>
+                        <td><input type="text" placeholder="e.g., Personnel"></td>
+                        <td><input type="text" placeholder="Salaries, benefits"></td>
+                        <td><input type="number" class="amount-input" placeholder="0" step="0.01" onchange="calculateTotals()"></td>
+                        <td><input type="text" placeholder="Additional notes"></td>
+                        <td><button class="remove-row" onclick="removeRow(this)">×</button></td>
+                    </tr>
+                `;
+                
+                // Clear monthly data
+                document.querySelectorAll('.monthly-income, .monthly-expense').forEach(input => {
+                    input.value = '';
+                });
+                
+                calculateTotals();
+                calculateMonthlyCashFlow();
+                localStorage.removeItem('budgetData');
+            }
+        }
+        
+        function exportBudget() {
+            window.print();
+        }
+        
+        // Auto-save every 30 seconds
+        setInterval(function() {
+            const hasData = document.getElementById('orgName').value.trim() !== '' ||
+                           document.querySelector('#incomeTable tbody input').value.trim() !== '';
+            
+            if (hasData) {
+                saveBudget();
+            }
+        }, 30000);
+        
+        // Load saved data on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            loadBudget();
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,857 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grant Reporting Checklist - ASCEND Nonprofits</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+            color: #000000;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #C1272D 0%, #8B1A1F 100%);
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(193, 39, 45, 0.3);
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+        
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .section {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            border-left: 4px solid #C1272D;
+        }
+        
+        .section h2 {
+            color: #C1272D;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .grant-card {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            border-left: 4px solid #007bff;
+            position: relative;
+        }
+        
+        .grant-card.overdue {
+            border-left-color: #dc3545;
+            background: #fff5f5;
+        }
+        
+        .grant-card.upcoming {
+            border-left-color: #ffc107;
+            background: #fffbf0;
+        }
+        
+        .grant-card.completed {
+            border-left-color: #28a745;
+            background: #f0fff4;
+        }
+        
+        .grant-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .grant-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #000;
+        }
+        
+        .status-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+        
+        .status-badge.overdue {
+            background: #dc3545;
+            color: white;
+        }
+        
+        .status-badge.upcoming {
+            background: #ffc107;
+            color: #000;
+        }
+        
+        .status-badge.completed {
+            background: #28a745;
+            color: white;
+        }
+        
+        .status-badge.current {
+            background: #007bff;
+            color: white;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            color: #000000;
+        }
+        
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+        
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #C1272D;
+            box-shadow: 0 0 0 3px rgba(193, 39, 45, 0.1);
+        }
+        
+        .checkbox-group {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
+        
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem;
+            background: white;
+            border-radius: 4px;
+            border: 1px solid #e9ecef;
+        }
+        
+        .checkbox-item input[type="checkbox"] {
+            width: auto;
+            margin: 0;
+        }
+        
+        .checkbox-item.completed {
+            background: #f0fff4;
+            border-color: #28a745;
+        }
+        
+        .btn {
+            background: linear-gradient(135deg, #C1272D 0%, #8B1A1F 100%);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-right: 1rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(193, 39, 45, 0.3);
+        }
+        
+        .btn-secondary {
+            background: linear-gradient(135deg, #000000 0%, #333333 100%);
+        }
+        
+        .btn-secondary:hover {
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        .btn-small {
+            padding: 0.5rem 1rem;
+            font-size: 0.9rem;
+        }
+        
+        .btn-success {
+            background: linear-gradient(135deg, #28a745 0%, #1e7e34 100%);
+        }
+        
+        .btn-success:hover {
+            box-shadow: 0 6px 20px rgba(40, 167, 69, 0.3);
+        }
+        
+        .date-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+        
+        .progress-bar {
+            background: #e9ecef;
+            border-radius: 10px;
+            height: 8px;
+            margin: 1rem 0;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            background: linear-gradient(90deg, #C1272D 0%, #8B1A1F 100%);
+            height: 100%;
+            transition: width 0.3s ease;
+        }
+        
+        .footer {
+            background: #000000;
+            color: white;
+            text-align: center;
+            padding: 2rem;
+            margin-top: 3rem;
+        }
+        
+        .footer p {
+            opacity: 0.8;
+        }
+        
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .container {
+                padding: 1rem;
+            }
+            
+            .section {
+                padding: 1.5rem;
+            }
+            
+            .grant-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.5rem;
+            }
+            
+            .date-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .print-btn {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            z-index: 1000;
+        }
+        
+        @media print {
+            .print-btn, .btn {
+                display: none;
+            }
+            
+            .header {
+                background: #C1272D !important;
+                -webkit-print-color-adjust: exact;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Grant Reporting Checklist</h1>
+        <p>Ensure timely, complete, and accurate reporting to funders</p>
+    </div>
+
+    <div class="container">
+        <!-- Add New Grant Section -->
+        <div class="section">
+            <h2>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z"/>
+                </svg>
+                Add New Grant
+            </h2>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1rem;">
+                <div class="form-group">
+                    <label for="grantName">Grant Name:</label>
+                    <input type="text" id="grantName" placeholder="Enter grant name">
+                </div>
+                <div class="form-group">
+                    <label for="funderName">Funder:</label>
+                    <input type="text" id="funderName" placeholder="Foundation or agency name">
+                </div>
+                <div class="form-group">
+                    <label for="grantAmount">Grant Amount:</label>
+                    <input type="number" id="grantAmount" placeholder="$0" min="0" step="100">
+                </div>
+                <div class="form-group">
+                    <label for="projectPeriod">Project Period:</label>
+                    <input type="text" id="projectPeriod" placeholder="e.g., Jan 2025 - Dec 2025">
+                </div>
+                <div class="form-group">
+                    <label for="reportingFrequency">Reporting Frequency:</label>
+                    <select id="reportingFrequency">
+                        <option value="">Select frequency</option>
+                        <option value="monthly">Monthly</option>
+                        <option value="quarterly">Quarterly</option>
+                        <option value="semi-annual">Semi-Annual</option>
+                        <option value="annual">Annual</option>
+                        <option value="final">Final Report Only</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="contactPerson">Program Officer:</label>
+                    <input type="text" id="contactPerson" placeholder="Contact person name">
+                </div>
+            </div>
+            <button class="btn" onclick="addGrant()">Add Grant</button>
+        </div>
+
+        <!-- Active Grants Section -->
+        <div class="section">
+            <h2>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M14,10H19.5L14,4.5V10M5,3H15L21,9V19A2,2 0 0,1 19,21H5C3.89,21 3,20.1 3,19V5C3,3.89 3.89,3 5,3M9,12H16V14H9V12M9,16H14V18H9V16Z"/>
+                </svg>
+                Active Grants & Reporting Schedule
+            </h2>
+            <div id="grantsContainer">
+                <!-- Sample grant card -->
+                <div class="grant-card upcoming">
+                    <div class="grant-header">
+                        <div class="grant-title">Sample Foundation Grant</div>
+                        <div class="status-badge upcoming">Due Soon</div>
+                    </div>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 1rem;">
+                        <div><strong>Funder:</strong> Sample Foundation</div>
+                        <div><strong>Amount:</strong> $50,000</div>
+                        <div><strong>Period:</strong> Jan 2025 - Dec 2025</div>
+                        <div><strong>Next Report:</strong> March 31, 2025</div>
+                    </div>
+                    
+                    <h4 style="margin-bottom: 0.5rem;">Report Requirements:</h4>
+                    <div class="checkbox-group">
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="sample-financial">
+                            <label for="sample-financial">Financial Report</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="sample-narrative">
+                            <label for="sample-narrative">Narrative Report</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="sample-data">
+                            <label for="sample-data">Program Data</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="sample-receipts">
+                            <label for="sample-receipts">Receipts/Documentation</label>
+                        </div>
+                    </div>
+                    
+                    <div style="margin-top: 1rem;">
+                        <button class="btn btn-small btn-success" onclick="markReportComplete(this)">Mark Complete</button>
+                        <button class="btn btn-small btn-secondary" onclick="editGrant(this)">Edit</button>
+                        <button class="btn btn-small" onclick="removeGrant(this)" style="background: #dc3545;">Remove</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Report Types Section -->
+        <div class="section">
+            <h2>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M18,20H6V4H13V9H18V20Z"/>
+                </svg>
+                Report Types & Requirements
+            </h2>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1rem;">
+                <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 8px; border-left: 4px solid #007bff;">
+                    <h3 style="color: #007bff; margin-bottom: 1rem;">Financial Reports</h3>
+                    <ul style="list-style: none; padding: 0;">
+                        <li style="margin-bottom: 0.5rem;">✓ Budget vs. Actual Expenses</li>
+                        <li style="margin-bottom: 0.5rem;">✓ Grant Fund Expenditures</li>
+                        <li style="margin-bottom: 0.5rem;">✓ Matching Funds Documentation</li>
+                        <li style="margin-bottom: 0.5rem;">✓ Financial Statements</li>
+                        <li style="margin-bottom: 0.5rem;">✓ Audit Reports (if required)</li>
+                    </ul>
+                </div>
+                
+                <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 8px; border-left: 4px solid #28a745;">
+                    <h3 style="color: #28a745; margin-bottom: 1rem;">Programmatic Reports</h3>
+                    <ul style="list-style: none; padding: 0;">
+                        <li style="margin-bottom: 0.5rem;">✓ Program Activities Summary</li>
+                        <li style="margin-bottom: 0.5rem;">✓ Participant Data & Demographics</li>
+                        <li style="margin-bottom: 0.5rem;">✓ Outcomes & Impact Metrics</li>
+                        <li style="margin-bottom: 0.5rem;">✓ Success Stories & Testimonials</li>
+                        <li style="margin-bottom: 0.5rem;">✓ Challenges & Lessons Learned</li>
+                    </ul>
+                </div>
+                
+                <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 8px; border-left: 4px solid #ffc107;">
+                    <h3 style="color: #e67e22; margin-bottom: 1rem;">Compliance Reports</h3>
+                    <ul style="list-style: none; padding: 0;">
+                        <li style="margin-bottom: 0.5rem;">✓ Grant Agreement Compliance</li>
+                        <li style="margin-bottom: 0.5rem;">✓ Regulatory Requirements</li>
+                        <li style="margin-bottom: 0.5rem;">✓ Environmental Reviews</li>
+                        <li style="margin-bottom: 0.5rem;">✓ Civil Rights Compliance</li>
+                        <li style="margin-bottom: 0.5rem;">✓ Property Inventory</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Documentation Checklist -->
+        <div class="section">
+            <h2>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2M11,16.5L18,9.5L16.59,8.09L11,13.67L7.91,10.59L6.5,12L11,16.5Z"/>
+                </svg>
+                Documentation Checklist
+            </h2>
+            
+            <div class="checkbox-group">
+                <div class="checkbox-item">
+                    <input type="checkbox" id="doc-receipts">
+                    <label for="doc-receipts">All receipts and invoices organized</label>
+                </div>
+                <div class="checkbox-item">
+                    <input type="checkbox" id="doc-timesheets">
+                    <label for="doc-timesheets">Staff timesheets and payroll records</label>
+                </div>
+                <div class="checkbox-item">
+                    <input type="checkbox" id="doc-participant">
+                    <label for="doc-participant">Participant enrollment forms</label>
+                </div>
+                <div class="checkbox-item">
+                    <input type="checkbox" id="doc-attendance">
+                    <label for="doc-attendance">Attendance records</label>
+                </div>
+                <div class="checkbox-item">
+                    <input type="checkbox" id="doc-evaluations">
+                    <label for="doc-evaluations">Pre/post evaluations</label>
+                </div>
+                <div class="checkbox-item">
+                    <input type="checkbox" id="doc-photos">
+                    <label for="doc-photos">Program photos (with releases)</label>
+                </div>
+                <div class="checkbox-item">
+                    <input type="checkbox" id="doc-testimonials">
+                    <label for="doc-testimonials">Participant testimonials</label>
+                </div>
+                <div class="checkbox-item">
+                    <input type="checkbox" id="doc-media">
+                    <label for="doc-media">Media coverage/press releases</label>
+                </div>
+                <div class="checkbox-item">
+                    <input type="checkbox" id="doc-partnerships">
+                    <label for="doc-partnerships">Partnership agreements/MOUs</label>
+                </div>
+                <div class="checkbox-item">
+                    <input type="checkbox" id="doc-permits">
+                    <label for="doc-permits">Permits and licenses</label>
+                </div>
+                <div class="checkbox-item">
+                    <input type="checkbox" id="doc-board">
+                    <label for="doc-board">Board meeting minutes</label>
+                </div>
+                <div class="checkbox-item">
+                    <input type="checkbox" id="doc-policies">
+                    <label for="doc-policies">Updated policies and procedures</label>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contact Management -->
+        <div class="section">
+            <h2>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12,4A4,4 0 0,1 16,8A4,4 0 0,1 12,12A4,4 0 0,1 8,8A4,4 0 0,1 12,4M12,14C16.42,14 20,15.79 20,18V20H4V18C4,15.79 7.58,14 12,14Z"/>
+                </svg>
+                Contact Persons & Responsibilities
+            </h2>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1rem;">
+                <div class="form-group">
+                    <label for="reportPreparer">Report Preparer:</label>
+                    <input type="text" id="reportPreparer" placeholder="Staff member responsible for preparing reports">
+                </div>
+                <div class="form-group">
+                    <label for="reportReviewer">Report Reviewer:</label>
+                    <input type="text" id="reportReviewer" placeholder="Supervisor or ED who reviews reports">
+                </div>
+                <div class="form-group">
+                    <label for="reportSubmitter">Report Submitter:</label>
+                    <input type="text" id="reportSubmitter" placeholder="Person authorized to submit reports">
+                </div>
+                <div class="form-group">
+                    <label for="dataCollector">Data Collector:</label>
+                    <input type="text" id="dataCollector" placeholder="Staff member who collects program data">
+                </div>
+            </div>
+        </div>
+
+        <!-- Follow-up Actions -->
+        <div class="section">
+            <h2>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M16.2,16.2L11,13V7H12.5V12.2L17,14.9L16.2,16.2Z"/>
+                </svg>
+                Follow-up Actions
+            </h2>
+            
+            <div class="form-group">
+                <label for="followupNotes">Post-Submission Follow-up:</label>
+                <textarea id="followupNotes" rows="4" placeholder="Steps to take after submission (confirmation receipt, funder feedback, next report scheduling, etc.)"></textarea>
+            </div>
+            
+            <div class="checkbox-group">
+                <div class="checkbox-item">
+                    <input type="checkbox" id="followup-confirmation">
+                    <label for="followup-confirmation">Confirm receipt of report</label>
+                </div>
+                <div class="checkbox-item">
+                    <input type="checkbox" id="followup-feedback">
+                    <label for="followup-feedback">Request feedback from funder</label>
+                </div>
+                <div class="checkbox-item">
+                    <input type="checkbox" id="followup-schedule">
+                    <label for="followup-schedule">Schedule next report deadline</label>
+                </div>
+                <div class="checkbox-item">
+                    <input type="checkbox" id="followup-file">
+                    <label for="followup-file">File report in grant records</label>
+                </div>
+                <div class="checkbox-item">
+                    <input type="checkbox" id="followup-board">
+                    <label for="followup-board">Update board on grant status</label>
+                </div>
+                <div class="checkbox-item">
+                    <input type="checkbox" id="followup-renewal">
+                    <label for="followup-renewal">Assess renewal opportunities</label>
+                </div>
+            </div>
+        </div>
+
+        <div style="text-align: center; margin: 2rem 0;">
+            <button type="button" class="btn" onclick="saveChecklist()">Save Checklist</button>
+            <button type="button" class="btn btn-secondary" onclick="loadChecklist()">Load Saved Data</button>
+            <button type="button" class="btn" onclick="exportChecklist()">Export to PDF</button>
+            <button type="button" class="btn btn-secondary" onclick="clearChecklist()">Clear All</button>
+        </div>
+    </div>
+
+    <button class="btn print-btn" onclick="window.print()">Print Checklist</button>
+
+    <div class="footer">
+        <p>&copy; 2025 ASCEND Nonprofits. Empowering nonprofits from vision to victory.</p>
+    </div>
+
+    <script>
+        let grants = [];
+        
+        function addGrant() {
+            const grantName = document.getElementById('grantName').value;
+            const funderName = document.getElementById('funderName').value;
+            const grantAmount = document.getElementById('grantAmount').value;
+            const projectPeriod = document.getElementById('projectPeriod').value;
+            const reportingFrequency = document.getElementById('reportingFrequency').value;
+            const contactPerson = document.getElementById('contactPerson').value;
+            
+            if (!grantName || !funderName) {
+                alert('Please enter at least the grant name and funder.');
+                return;
+            }
+            
+            const grant = {
+                id: Date.now(),
+                name: grantName,
+                funder: funderName,
+                amount: grantAmount,
+                period: projectPeriod,
+                frequency: reportingFrequency,
+                contact: contactPerson,
+                status: 'current',
+                reports: []
+            };
+            
+            grants.push(grant);
+            renderGrants();
+            clearGrantForm();
+        }
+        
+        function clearGrantForm() {
+            document.getElementById('grantName').value = '';
+            document.getElementById('funderName').value = '';
+            document.getElementById('grantAmount').value = '';
+            document.getElementById('projectPeriod').value = '';
+            document.getElementById('reportingFrequency').value = '';
+            document.getElementById('contactPerson').value = '';
+        }
+        
+        function renderGrants() {
+            const container = document.getElementById('grantsContainer');
+            container.innerHTML = '';
+            
+            grants.forEach(grant => {
+                const grantCard = document.createElement('div');
+                grantCard.className = `grant-card ${grant.status}`;
+                grantCard.innerHTML = `
+                    <div class="grant-header">
+                        <div class="grant-title">${grant.name}</div>
+                        <div class="status-badge ${grant.status}">${getStatusText(grant.status)}</div>
+                    </div>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 1rem;">
+                        <div><strong>Funder:</strong> ${grant.funder}</div>
+                        <div><strong>Amount:</strong> $${parseInt(grant.amount || 0).toLocaleString()}</div>
+                        <div><strong>Period:</strong> ${grant.period}</div>
+                        <div><strong>Frequency:</strong> ${grant.frequency}</div>
+                    </div>
+                    
+                    <h4 style="margin-bottom: 0.5rem;">Report Requirements:</h4>
+                    <div class="checkbox-group">
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="financial-${grant.id}">
+                            <label for="financial-${grant.id}">Financial Report</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="narrative-${grant.id}">
+                            <label for="narrative-${grant.id}">Narrative Report</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="data-${grant.id}">
+                            <label for="data-${grant.id}">Program Data</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="receipts-${grant.id}">
+                            <label for="receipts-${grant.id}">Receipts/Documentation</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="compliance-${grant.id}">
+                            <label for="compliance-${grant.id}">Compliance Documentation</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="testimonials-${grant.id}">
+                            <label for="testimonials-${grant.id}">Testimonials/Stories</label>
+                        </div>
+                    </div>
+                    
+                    <div style="margin-top: 1rem;">
+                        <button class="btn btn-small btn-success" onclick="markReportComplete(this, ${grant.id})">Mark Complete</button>
+                        <button class="btn btn-small btn-secondary" onclick="editGrant(this, ${grant.id})">Edit</button>
+                        <button class="btn btn-small" onclick="removeGrant(${grant.id})" style="background: #dc3545;">Remove</button>
+                    </div>
+                `;
+                container.appendChild(grantCard);
+            });
+        }
+        
+        function getStatusText(status) {
+            const statusMap = {
+                'current': 'Current',
+                'upcoming': 'Due Soon',
+                'overdue': 'Overdue',
+                'completed': 'Completed'
+            };
+            return statusMap[status] || 'Current';
+        }
+        
+        function markReportComplete(button, grantId) {
+            const grantCard = button.closest('.grant-card');
+            const checkboxes = grantCard.querySelectorAll('input[type="checkbox"]');
+            
+            checkboxes.forEach(checkbox => {
+                checkbox.checked = true;
+                checkbox.closest('.checkbox-item').classList.add('completed');
+            });
+            
+            // Update grant status
+            const grant = grants.find(g => g.id === grantId);
+            if (grant) {
+                grant.status = 'completed';
+                renderGrants();
+            }
+            
+            alert('Report marked as complete!');
+        }
+        
+        function editGrant(button, grantId) {
+            const grant = grants.find(g => g.id === grantId);
+            if (grant) {
+                document.getElementById('grantName').value = grant.name;
+                document.getElementById('funderName').value = grant.funder;
+                document.getElementById('grantAmount').value = grant.amount;
+                document.getElementById('projectPeriod').value = grant.period;
+                document.getElementById('reportingFrequency').value = grant.frequency;
+                document.getElementById('contactPerson').value = grant.contact;
+                
+                // Remove the grant so it can be re-added with updates
+                removeGrant(grantId);
+            }
+        }
+        
+        function removeGrant(grantId) {
+            if (confirm('Are you sure you want to remove this grant?')) {
+                grants = grants.filter(g => g.id !== grantId);
+                renderGrants();
+            }
+        }
+        
+        function saveChecklist() {
+            const data = {
+                grants: grants,
+                contacts: {
+                    reportPreparer: document.getElementById('reportPreparer').value,
+                    reportReviewer: document.getElementById('reportReviewer').value,
+                    reportSubmitter: document.getElementById('reportSubmitter').value,
+                    dataCollector: document.getElementById('dataCollector').value
+                },
+                followupNotes: document.getElementById('followupNotes').value,
+                checkboxStates: {}
+            };
+            
+            // Save checkbox states
+            const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+            checkboxes.forEach(checkbox => {
+                data.checkboxStates[checkbox.id] = checkbox.checked;
+            });
+            
+            localStorage.setItem('grantReportingData', JSON.stringify(data));
+            alert('Checklist saved successfully!');
+        }
+        
+        function loadChecklist() {
+            const savedData = localStorage.getItem('grantReportingData');
+            if (savedData) {
+                const data = JSON.parse(savedData);
+                
+                // Load grants
+                grants = data.grants || [];
+                renderGrants();
+                
+                // Load contacts
+                if (data.contacts) {
+                    document.getElementById('reportPreparer').value = data.contacts.reportPreparer || '';
+                    document.getElementById('reportReviewer').value = data.contacts.reportReviewer || '';
+                    document.getElementById('reportSubmitter').value = data.contacts.reportSubmitter || '';
+                    document.getElementById('dataCollector').value = data.contacts.dataCollector || '';
+                }
+                
+                document.getElementById('followupNotes').value = data.followupNotes || '';
+                
+                // Load checkbox states
+                if (data.checkboxStates) {
+                    Object.keys(data.checkboxStates).forEach(checkboxId => {
+                        const checkbox = document.getElementById(checkboxId);
+                        if (checkbox) {
+                            checkbox.checked = data.checkboxStates[checkboxId];
+                            if (checkbox.checked) {
+                                checkbox.closest('.checkbox-item')?.classList.add('completed');
+                            }
+                        }
+                    });
+                }
+                
+                alert('Checklist loaded successfully!');
+            } else {
+                alert('No saved checklist found.');
+            }
+        }
+        
+        function clearChecklist() {
+            if (confirm('Are you sure you want to clear all data?')) {
+                grants = [];
+                renderGrants();
+                
+                // Clear form fields
+                document.getElementById('reportPreparer').value = '';
+                document.getElementById('reportReviewer').value = '';
+                document.getElementById('reportSubmitter').value = '';
+                document.getElementById('dataCollector').value = '';
+                document.getElementById('followupNotes').value = '';
+                
+                // Clear checkboxes
+                const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+                checkboxes.forEach(checkbox => {
+                    checkbox.checked = false;
+                    checkbox.closest('.checkbox-item')?.classList.remove('completed');
+                });
+                
+                localStorage.removeItem('grantReportingData');
+            }
+        }
+        
+        function exportChecklist() {
+            window.print();
+        }
+        
+        // Auto-save every 30 seconds
+        setInterval(function() {
+            if (grants.length > 0 || document.getElementById('reportPreparer').value.trim() !== '') {
+                saveChecklist();
+            }
+        }, 30000);
+        
+        // Load saved data on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            loadChecklist();
+        });
+        
+        // Add event listeners for checkbox completion tracking
+        document.addEventListener('change', function(e) {
+            if (e.target.type === 'checkbox') {
+                if (e.target.checked) {
+                    e.target.closest('.checkbox-item')?.classList.add('completed');
+                } else {
+                    e.target.closest('.checkbox-item')?.classList.remove('completed');
+                }
+            }
+        });
+    </script>
+</body>
+</html>

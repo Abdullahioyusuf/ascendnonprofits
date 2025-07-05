@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Program Logic Model Template - ASCEND Nonprofits</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+            color: #000000;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #C1272D 0%, #8B1A1F 100%);
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(193, 39, 45, 0.3);
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+        
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .logic-model {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 1rem;
+            margin: 2rem 0;
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .logic-column {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 1.5rem;
+            border-top: 4px solid;
+            min-height: 400px;
+            position: relative;
+        }
+        
+        .logic-column.inputs {
+            border-top-color: #007bff;
+        }
+        
+        .logic-column.activities {
+            border-top-color: #28a745;
+        }
+        
+        .logic-column.outputs {
+            border-top-color: #ffc107;
+        }
+        
+        .logic-column.outcomes {
+            border-top-color: #fd7e14;
+        }
+        
+        .logic-column.impact {
+            border-top-color: #C1272D;
+        }
+        
+        .logic-column h3 {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            text-align: center;
+            font-weight: bold;
+        }
+        
+        .logic-column.inputs h3 { color: #007bff; }
+        .logic-column.activities h3 { color: #28a745; }
+        .logic-column.outputs h3 { color: #ffc107; }
+        .logic-column.outcomes h3 { color: #fd7e14; }
+        .logic-column.impact h3 { color: #C1272D; }
+        
+        .item-input {
+            width: 100%;
+            padding: 0.5rem;
+            margin-bottom: 0.5rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            background: white;
+        }
+        
+        .item-input:focus {
+            outline: none;
+            border-color: #C1272D;
+            box-shadow: 0 0 0 2px rgba(193, 39, 45, 0.1);
+        }
+        
+        .add-item-btn {
+            background: #C1272D;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            width: 100%;
+            margin-top: 0.5rem;
+        }
+        
+        .add-item-btn:hover {
+            background: #8B1A1F;
+        }
+        
+        .remove-item {
+            background: #dc3545;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            font-size: 12px;
+            position: absolute;
+            right: -5px;
+            top: -5px;
+            display: none;
+        }
+        
+        .item-container {
+            position: relative;
+            margin-bottom: 0.5rem;
+        }
+        
+        .item-container:hover .remove-item {
+            display: block;
+        }
+        
+        .section {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            border-left: 4px solid #C1272D;
+        }
+        
+        .section h2 {
+            color: #C1272D;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            color: #000000;
+        }
+        
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+        
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #C1272D;
+            box-shadow: 0 0 0 3px rgba(193, 39, 45, 0.1);
+        }
+        
+        .btn {
+            background: linear-gradient(135deg, #C1272D 0%, #8B1A1F 100%);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-right: 1rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(193, 39, 45, 0.3);
+        }
+        
+        .btn-secondary {
+            background: linear-gradient(135deg, #000000 0%, #333333 100%);
+        }
+        
+        .btn-secondary:hover {
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        .arrows {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 1rem 0;
+        }
+        
+        .arrow {
+            font-size: 2rem;
+            color: #C1272D;
+            margin: 0 1rem;
+        }
+        
+        .footer {
+            background: #000000;
+            color: white;
+            text-align: center;
+            padding: 2rem;
+            margin-top: 3rem;
+        }
+        
+        .footer p {
+            opacity: 0.8;
+        }
+        
+        @media (max-width: 1200px) {
+            .logic-model {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .logic-model {
+                grid-template-columns: 1fr;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .container {
+                padding: 1rem;
+            }
+            
+            .section {
+                padding: 1.5rem;
+            }
+        }
+        
+        .print-btn {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            z-index: 1000;
+        }
+        
+        @media print {
+            .print-btn, .btn, .add-item-btn, .remove-item {
+                display: none;
+            }
+            
+            .header {
+                background: #C1272D !important;
+                -webkit-print-color-adjust: exact;
+            }
+            
+            .logic-model {
+                break-inside: avoid;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Program Logic Model Template</h1>
+        <p>Visualize how your program creates impact from inputs to long-term outcomes</p>
+    </div>
+
+    <div class="container">
+        <!-- Program Information Section -->
+        <div class="section">
+            <h2>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                </svg>
+                Program Information
+            </h2>
+            <div class="form-group">
+                <label for="programName">Program Name:</label>
+                <input type="text" id="programName" placeholder="Enter your program name">
+            </div>
+            <div class="form-group">
+                <label for="programGoal">Program Goal:</label>
+                <textarea id="programGoal" rows="3" placeholder="What is the overall goal of your program?"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="targetPopulation">Target Population:</label>
+                <textarea id="targetPopulation" rows="2" placeholder="Who does your program serve?"></textarea>
+            </div>
+        </div>
+
+        <!-- Logic Model Visual -->
+        <div class="logic-model" id="logicModel">
+            <div class="logic-column inputs">
+                <h3>INPUTS</h3>
+                <p style="font-size: 0.8rem; margin-bottom: 1rem; color: #666;">Resources invested (staff, funding, materials)</p>
+                <div id="inputsContainer">
+                    <div class="item-container">
+                        <input type="text" class="item-input" placeholder="e.g., Program staff">
+                        <button class="remove-item" onclick="removeItem(this)">×</button>
+                    </div>
+                </div>
+                <button class="add-item-btn" onclick="addItem('inputsContainer')">+ Add Input</button>
+            </div>
+
+            <div class="logic-column activities">
+                <h3>ACTIVITIES</h3>
+                <p style="font-size: 0.8rem; margin-bottom: 1rem; color: #666;">Actions taken (workshops, counseling, outreach)</p>
+                <div id="activitiesContainer">
+                    <div class="item-container">
+                        <input type="text" class="item-input" placeholder="e.g., Weekly workshops">
+                        <button class="remove-item" onclick="removeItem(this)">×</button>
+                    </div>
+                </div>
+                <button class="add-item-btn" onclick="addItem('activitiesContainer')">+ Add Activity</button>
+            </div>
+
+            <div class="logic-column outputs">
+                <h3>OUTPUTS</h3>
+                <p style="font-size: 0.8rem; margin-bottom: 1rem; color: #666;">Direct results (sessions held, participants served)</p>
+                <div id="outputsContainer">
+                    <div class="item-container">
+                        <input type="text" class="item-input" placeholder="e.g., 50 participants served">
+                        <button class="remove-item" onclick="removeItem(this)">×</button>
+                    </div>
+                </div>
+                <button class="add-item-btn" onclick="addItem('outputsContainer')">+ Add Output</button>
+            </div>
+
+            <div class="logic-column outcomes">
+                <h3>OUTCOMES</h3>
+                <p style="font-size: 0.8rem; margin-bottom: 1rem; color: #666;">Changes for participants (skill gain, behavior change)</p>
+                <div id="outcomesContainer">
+                    <div class="item-container">
+                        <input type="text" class="item-input" placeholder="e.g., Increased job skills">
+                        <button class="remove-item" onclick="removeItem(this)">×</button>
+                    </div>
+                </div>
+                <button class="add-item-btn" onclick="addItem('outcomesContainer')">+ Add Outcome</button>
+            </div>
+
+            <div class="logic-column impact">
+                <h3>IMPACT</h3>
+                <p style="font-size: 0.8rem; margin-bottom: 1rem; color: #666;">Broader social or community changes over time</p>
+                <div id="impactContainer">
+                    <div class="item-container">
+                        <input type="text" class="item-input" placeholder="e.g., Reduced unemployment">
+                        <button class="remove-item" onclick="removeItem(this)">×</button>
+                    </div>
+                </div>
+                <button class="add-item-btn" onclick="addItem('impactContainer')">+ Add Impact</button>
+            </div>
+        </div>
+
+        <div class="arrows">
+            <span class="arrow">→</span>
+            <span class="arrow">→</span>
+            <span class="arrow">→</span>
+            <span class="arrow">→</span>
+        </div>
+
+        <!-- Assumptions Section -->
+        <div class="section">
+            <h2>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M11,9H13V7H11M12,20C7.59,20 4,16.41 4,12C4,7.59 7.59,4 12,4C16.41,4 20,7.59 20,12C20,16.41 16.41,20 12,20M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M11,17H13V11H11V17Z"/>
+                </svg>
+                Assumptions & External Factors
+            </h2>
+            <div class="form-group">
+                <label for="assumptions">Key Assumptions:</label>
+                <textarea id="assumptions" rows="4" placeholder="What assumptions are you making about your program? (e.g., participants will attend regularly, funding will continue, etc.)"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="externalFactors">External Factors:</label>
+                <textarea id="externalFactors" rows="4" placeholder="What external factors could influence your program's success? (e.g., economic conditions, policy changes, etc.)"></textarea>
+            </div>
+        </div>
+
+        <!-- Measurement Section -->
+        <div class="section">
+            <h2>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M16,6L18.29,8.29L13.41,13.17L9.41,9.17L2,16.59L3.41,18L9.41,12L13.41,16L19.71,9.71L22,12V6H16Z"/>
+                </svg>
+                Measurement & Evaluation
+            </h2>
+            <div class="form-group">
+                <label for="indicators">Key Performance Indicators:</label>
+                <textarea id="indicators" rows="4" placeholder="How will you measure success at each level? (e.g., number of participants, test scores, employment rates)"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="dataCollection">Data Collection Methods:</label>
+                <textarea id="dataCollection" rows="4" placeholder="How will you collect data? (e.g., surveys, interviews, administrative records)"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="timeline">Evaluation Timeline:</label>
+                <textarea id="timeline" rows="3" placeholder="When will you collect data and evaluate progress?"></textarea>
+            </div>
+        </div>
+
+        <div style="text-align: center; margin: 2rem 0;">
+            <button type="button" class="btn" onclick="saveLogicModel()">Save Logic Model</button>
+            <button type="button" class="btn btn-secondary" onclick="loadLogicModel()">Load Saved Model</button>
+            <button type="button" class="btn" onclick="exportLogicModel()">Export to PDF</button>
+            <button type="button" class="btn btn-secondary" onclick="clearLogicModel()">Clear All</button>
+        </div>
+    </div>
+
+    <button class="btn print-btn" onclick="window.print()">Print Logic Model</button>
+
+    <div class="footer">
+        <p>&copy; 2025 ASCEND Nonprofits. Empowering nonprofits from vision to victory.</p>
+    </div>
+
+    <script>
+        function addItem(containerId) {
+            const container = document.getElementById(containerId);
+            const itemDiv = document.createElement('div');
+            itemDiv.className = 'item-container';
+            
+            const input = document.createElement('input');
+            input.type = 'text';
+            input.className = 'item-input';
+            input.placeholder = getPlaceholder(containerId);
+            
+            const removeBtn = document.createElement('button');
+            removeBtn.className = 'remove-item';
+            removeBtn.innerHTML = '×';
+            removeBtn.onclick = function() { removeItem(this); };
+            
+            itemDiv.appendChild(input);
+            itemDiv.appendChild(removeBtn);
+            
+            // Insert before the add button
+            const addBtn = container.nextElementSibling;
+            container.appendChild(itemDiv);
+            
+            input.focus();
+        }
+        
+        function removeItem(button) {
+            button.parentElement.remove();
+        }
+        
+        function getPlaceholder(containerId) {
+            const placeholders = {
+                'inputsContainer': 'e.g., Staff time, funding, equipment',
+                'activitiesContainer': 'e.g., Training sessions, counseling',
+                'outputsContainer': 'e.g., Number of people served',
+                'outcomesContainer': 'e.g., Improved skills, behavior change',
+                'impactContainer': 'e.g., Community improvement'
+            };
+            return placeholders[containerId] || 'Enter item';
+        }
+        
+        function saveLogicModel() {
+            const data = {
+                programName: document.getElementById('programName').value,
+                programGoal: document.getElementById('programGoal').value,
+                targetPopulation: document.getElementById('targetPopulation').value,
+                assumptions: document.getElementById('assumptions').value,
+                externalFactors: document.getElementById('externalFactors').value,
+                indicators: document.getElementById('indicators').value,
+                dataCollection: document.getElementById('dataCollection').value,
+                timeline: document.getElementById('timeline').value,
+                logicModel: {}
+            };
+            
+            // Save logic model items
+            const containers = ['inputsContainer', 'activitiesContainer', 'outputsContainer', 'outcomesContainer', 'impactContainer'];
+            containers.forEach(containerId => {
+                const container = document.getElementById(containerId);
+                const inputs = container.querySelectorAll('.item-input');
+                data.logicModel[containerId] = Array.from(inputs).map(input => input.value);
+            });
+            
+            localStorage.setItem('logicModelData', JSON.stringify(data));
+            alert('Logic model saved successfully!');
+        }
+        
+        function loadLogicModel() {
+            const savedData = localStorage.getItem('logicModelData');
+            if (savedData) {
+                const data = JSON.parse(savedData);
+                
+                // Load form fields
+                document.getElementById('programName').value = data.programName || '';
+                document.getElementById('programGoal').value = data.programGoal || '';
+                document.getElementById('targetPopulation').value = data.targetPopulation || '';
+                document.getElementById('assumptions').value = data.assumptions || '';
+                document.getElementById('externalFactors').value = data.externalFactors || '';
+                document.getElementById('indicators').value = data.indicators || '';
+                document.getElementById('dataCollection').value = data.dataCollection || '';
+                document.getElementById('timeline').value = data.timeline || '';
+                
+                // Load logic model items
+                if (data.logicModel) {
+                    Object.keys(data.logicModel).forEach(containerId => {
+                        const container = document.getElementById(containerId);
+                        if (container) {
+                            // Clear existing items
+                            container.innerHTML = '';
+                            
+                            // Add saved items
+                            data.logicModel[containerId].forEach(value => {
+                                if (value.trim()) {
+                                    const itemDiv = document.createElement('div');
+                                    itemDiv.className = 'item-container';
+                                    
+                                    const input = document.createElement('input');
+                                    input.type = 'text';
+                                    input.className = 'item-input';
+                                    input.value = value;
+                                    
+                                    const removeBtn = document.createElement('button');
+                                    removeBtn.className = 'remove-item';
+                                    removeBtn.innerHTML = '×';
+                                    removeBtn.onclick = function() { removeItem(this); };
+                                    
+                                    itemDiv.appendChild(input);
+                                    itemDiv.appendChild(removeBtn);
+                                    container.appendChild(itemDiv);
+                                }
+                            });
+                            
+                            // Add at least one empty item if none exist
+                            if (container.children.length === 0) {
+                                addItem(containerId);
+                            }
+                        }
+                    });
+                }
+                
+                alert('Logic model loaded successfully!');
+            } else {
+                alert('No saved logic model found.');
+            }
+        }
+        
+        function clearLogicModel() {
+            if (confirm('Are you sure you want to clear all data?')) {
+                // Clear form fields
+                document.getElementById('programName').value = '';
+                document.getElementById('programGoal').value = '';
+                document.getElementById('targetPopulation').value = '';
+                document.getElementById('assumptions').value = '';
+                document.getElementById('externalFactors').value = '';
+                document.getElementById('indicators').value = '';
+                document.getElementById('dataCollection').value = '';
+                document.getElementById('timeline').value = '';
+                
+                // Reset logic model containers
+                const containers = ['inputsContainer', 'activitiesContainer', 'outputsContainer', 'outcomesContainer', 'impactContainer'];
+                containers.forEach(containerId => {
+                    const container = document.getElementById(containerId);
+                    container.innerHTML = `
+                        <div class="item-container">
+                            <input type="text" class="item-input" placeholder="${getPlaceholder(containerId)}">
+                            <button class="remove-item" onclick="removeItem(this)">×</button>
+                        </div>
+                    `;
+                });
+                
+                localStorage.removeItem('logicModelData');
+            }
+        }
+        
+        function exportLogicModel() {
+            window.print();
+        }
+        
+        // Auto-save every 30 seconds
+        setInterval(function() {
+            const hasData = document.getElementById('programName').value.trim() !== '' ||
+                           document.getElementById('programGoal').value.trim() !== '';
+            
+            if (hasData) {
+                saveLogicModel();
+            }
+        }, 30000);
+        
+        // Load saved data on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            loadLogicModel();
+        });
+    </script>
+</body>
+</html>

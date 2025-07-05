@@ -99,12 +99,12 @@ export const services: Service[] = [
 export const founderBio = {
   name: 'Abdullahi Yusuf, MBA, DBA (c)',
   title: 'Healthcare Operations Strategist & Nonprofit Development Expert',
-  experience: '15+ years',
+  experience: '20+ years',
   achievements: [
     '$1M+ in secured grants',
     'Led $100M referendum in Rochester, MN',
     'Healthcare operations leader',
     'Quality assurance systems expert'
   ],
-  bio: 'A dynamic healthcare operations strategist, clinical research expert, and community leader with a proven track record in managing complex programs, transforming underperforming systems, and bridging the gap between technical and non-technical teams. Currently pursuing a Doctor of Business Administration in Accounting and Finance, with over 15 years of experience spanning quality management, healthcare operations, grant writing, and strategic consulting. From leading operations to securing million-dollar public grants, my portfolio reflects a commitment to excellence, equity, and innovation in both healthcare and nonprofit sectors.'
+  bio: 'A seasoned Independent Consultant and Nonprofit Strategist with over 20 years of experience helping mission-driven organizations launch, fund, and grow with confidence and clarity. With a proven track record of securing more than $1 million in grant funding, Abdullahi specializes in grant writing, program development, organizational capacity building, and strategic planning. As the founder of ASCEND Nonprofits, Abdullahi leads a platform dedicated to empowering nonprofits with modern tools, actionable strategies, and systems thinking. His expertise spans diverse sectors including health, education, workforce development, and cultural initiatives. Abdullahi holds a Master of Business Administration (MBA) in Strategic Management and is a doctoral candidate, bringing rigorous academic insights to practical nonprofit challenges. His background in health sciences and extensive experience in grant compliance, digital tools, and emotional intelligence uniquely position him to support organizations in navigating today\'s complex nonprofit landscape. Committed to building sustainable organizations that create measurable community impact, Abdullahi is passionate about helping leaders transform passion into power through strategy, systems, and smart use of technology.'
 };

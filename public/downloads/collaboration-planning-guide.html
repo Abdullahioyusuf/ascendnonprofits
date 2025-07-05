@@ -1,0 +1,994 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Collaboration Planning Guide - ASCEND Nonprofits</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+            color: #000000;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #C1272D 0%, #8B1A1F 100%);
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(193, 39, 45, 0.3);
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+        
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .section {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            border-left: 4px solid #C1272D;
+        }
+        
+        .section h2 {
+            color: #C1272D;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .partner-card {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            border-left: 4px solid #007bff;
+            position: relative;
+        }
+        
+        .partner-card.high-potential {
+            border-left-color: #28a745;
+            background: #f0fff4;
+        }
+        
+        .partner-card.medium-potential {
+            border-left-color: #ffc107;
+            background: #fffbf0;
+        }
+        
+        .partner-card.low-potential {
+            border-left-color: #6c757d;
+            background: #f8f9fa;
+        }
+        
+        .partner-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        
+        .partner-name {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #000;
+        }
+        
+        .potential-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+        
+        .potential-badge.high {
+            background: #28a745;
+            color: white;
+        }
+        
+        .potential-badge.medium {
+            background: #ffc107;
+            color: #000;
+        }
+        
+        .potential-badge.low {
+            background: #6c757d;
+            color: white;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            color: #000000;
+        }
+        
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+        
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #C1272D;
+            box-shadow: 0 0 0 3px rgba(193, 39, 45, 0.1);
+        }
+        
+        .checkbox-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
+        
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem;
+            background: white;
+            border-radius: 4px;
+            border: 1px solid #e9ecef;
+        }
+        
+        .checkbox-item input[type="checkbox"] {
+            width: auto;
+            margin: 0;
+        }
+        
+        .checkbox-item.selected {
+            background: #e3f2fd;
+            border-color: #2196f3;
+        }
+        
+        .rating-group {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+        
+        .rating-group input[type="radio"] {
+            width: auto;
+            margin: 0;
+        }
+        
+        .btn {
+            background: linear-gradient(135deg, #C1272D 0%, #8B1A1F 100%);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-right: 1rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(193, 39, 45, 0.3);
+        }
+        
+        .btn-secondary {
+            background: linear-gradient(135deg, #000000 0%, #333333 100%);
+        }
+        
+        .btn-secondary:hover {
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        .btn-small {
+            padding: 0.5rem 1rem;
+            font-size: 0.9rem;
+        }
+        
+        .collaboration-matrix {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+        
+        .matrix-item {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 8px;
+            border-left: 4px solid #007bff;
+        }
+        
+        .matrix-item h4 {
+            color: #007bff;
+            margin-bottom: 0.5rem;
+        }
+        
+        .footer {
+            background: #000000;
+            color: white;
+            text-align: center;
+            padding: 2rem;
+            margin-top: 3rem;
+        }
+        
+        .footer p {
+            opacity: 0.8;
+        }
+        
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .container {
+                padding: 1rem;
+            }
+            
+            .section {
+                padding: 1.5rem;
+            }
+            
+            .partner-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+        
+        .print-btn {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            z-index: 1000;
+        }
+        
+        @media print {
+            .print-btn, .btn {
+                display: none;
+            }
+            
+            .header {
+                background: #C1272D !important;
+                -webkit-print-color-adjust: exact;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Collaboration Planning Guide</h1>
+        <p>Support your efforts to build strong and effective partnerships</p>
+    </div>
+
+    <div class="container">
+        <!-- Organization Overview -->
+        <div class="section">
+            <h2>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                </svg>
+                Your Organization Profile
+            </h2>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1rem;">
+                <div class="form-group">
+                    <label for="orgName">Organization Name:</label>
+                    <input type="text" id="orgName" placeholder="Enter your organization name">
+                </div>
+                <div class="form-group">
+                    <label for="orgMission">Mission Statement:</label>
+                    <textarea id="orgMission" rows="3" placeholder="Brief description of your organization's mission"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="orgStrengths">Key Strengths & Resources:</label>
+                    <textarea id="orgStrengths" rows="3" placeholder="What unique strengths, resources, or expertise does your organization bring?"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="collaborationGoals">Collaboration Goals:</label>
+                    <textarea id="collaborationGoals" rows="3" placeholder="What do you hope to achieve through partnerships?"></textarea>
+                </div>
+            </div>
+        </div>
+
+        <!-- Add New Partner -->
+        <div class="section">
+            <h2>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z"/>
+                </svg>
+                Add Potential Partner
+            </h2>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1rem;">
+                <div class="form-group">
+                    <label for="partnerName">Organization Name:</label>
+                    <input type="text" id="partnerName" placeholder="Partner organization name">
+                </div>
+                <div class="form-group">
+                    <label for="partnerType">Organization Type:</label>
+                    <select id="partnerType">
+                        <option value="">Select type</option>
+                        <option value="nonprofit">Nonprofit</option>
+                        <option value="government">Government Agency</option>
+                        <option value="business">Business/Corporate</option>
+                        <option value="foundation">Foundation</option>
+                        <option value="educational">Educational Institution</option>
+                        <option value="faith">Faith-Based Organization</option>
+                        <option value="community">Community Group</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="partnerMission">Their Mission/Focus:</label>
+                    <textarea id="partnerMission" rows="2" placeholder="What is their primary mission or focus area?"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="contactPerson">Primary Contact:</label>
+                    <input type="text" id="contactPerson" placeholder="Contact person name and title">
+                </div>
+                <div class="form-group">
+                    <label for="contactEmail">Contact Email:</label>
+                    <input type="email" id="contactEmail" placeholder="contact@organization.org">
+                </div>
+                <div class="form-group">
+                    <label for="contactPhone">Contact Phone:</label>
+                    <input type="tel" id="contactPhone" placeholder="(555) 123-4567">
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label>Shared Goals & Interests:</label>
+                <div class="checkbox-grid">
+                    <div class="checkbox-item">
+                        <input type="checkbox" value="education">
+                        <label>Education</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" value="health">
+                        <label>Health & Wellness</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" value="poverty">
+                        <label>Poverty Alleviation</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" value="environment">
+                        <label>Environment</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" value="youth">
+                        <label>Youth Development</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" value="seniors">
+                        <label>Senior Services</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" value="housing">
+                        <label>Housing</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" value="arts">
+                        <label>Arts & Culture</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" value="advocacy">
+                        <label>Advocacy</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" value="research">
+                        <label>Research</label>
+                    </div>
+                </div>
+            </div>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem;">
+                <div class="form-group">
+                    <label>Partnership Potential:</label>
+                    <div class="rating-group">
+                        <input type="radio" id="potential-high" name="potential" value="high">
+                        <label for="potential-high">High</label>
+                        <input type="radio" id="potential-medium" name="potential" value="medium">
+                        <label for="potential-medium">Medium</label>
+                        <input type="radio" id="potential-low" name="potential" value="low">
+                        <label for="potential-low">Low</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Resource Capacity:</label>
+                    <div class="rating-group">
+                        <input type="radio" id="capacity-high" name="capacity" value="high">
+                        <label for="capacity-high">High</label>
+                        <input type="radio" id="capacity-medium" name="capacity" value="medium">
+                        <label for="capacity-medium">Medium</label>
+                        <input type="radio" id="capacity-low" name="capacity" value="low">
+                        <label for="capacity-low">Low</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Relationship Status:</label>
+                    <select id="relationshipStatus">
+                        <option value="new">New Contact</option>
+                        <option value="existing">Existing Relationship</option>
+                        <option value="past">Past Partner</option>
+                        <option value="referred">Referred Contact</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="partnerNotes">Notes & Observations:</label>
+                <textarea id="partnerNotes" rows="3" placeholder="Additional notes about this potential partner"></textarea>
+            </div>
+            
+            <button class="btn" onclick="addPartner()">Add Partner</button>
+        </div>
+
+        <!-- Partners List -->
+        <div class="section">
+            <h2>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12,5.5A3.5,3.5 0 0,1 15.5,9A3.5,3.5 0 0,1 12,12.5A3.5,3.5 0 0,1 8.5,9A3.5,3.5 0 0,1 12,5.5M5,8C5.56,8 6.08,8.15 6.53,8.42C6.38,9.85 6.8,11.27 7.66,12.38C7.16,13.34 6.16,14 5,14A3,3 0 0,1 2,11A3,3 0 0,1 5,8M19,8A3,3 0 0,1 22,11A3,3 0 0,1 19,14C17.84,14 16.84,13.34 16.34,12.38C17.2,11.27 17.62,9.85 17.47,8.42C17.92,8.15 18.44,8 19,8M5.5,18.25C5.5,16.18 8.41,14.5 12,14.5C15.59,14.5 18.5,16.18 18.5,18.25V20H5.5V18.25M0,20V18.5C0,17.11 1.89,15.94 4.45,15.6C3.86,16.28 3.5,17.22 3.5,18.25V20H0M24,20H20.5V18.25C20.5,17.22 20.14,16.28 19.55,15.6C22.11,15.94 24,17.11 24,18.5V20Z"/>
+                </svg>
+                Potential Partners
+            </h2>
+            <div id="partnersContainer">
+                <!-- Sample partner card -->
+                <div class="partner-card high-potential">
+                    <div class="partner-header">
+                        <div class="partner-name">Sample Community Center</div>
+                        <div class="potential-badge high">High Potential</div>
+                    </div>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 1rem;">
+                        <div><strong>Type:</strong> Nonprofit</div>
+                        <div><strong>Focus:</strong> Youth Development</div>
+                        <div><strong>Contact:</strong> Jane Smith, Director</div>
+                        <div><strong>Status:</strong> Existing Relationship</div>
+                    </div>
+                    
+                    <div style="margin-bottom: 1rem;">
+                        <strong>Shared Goals:</strong> Education, Youth Development, Community Building
+                    </div>
+                    
+                    <div style="margin-bottom: 1rem;">
+                        <strong>Notes:</strong> Strong community presence, excellent youth programs, potential for joint programming.
+                    </div>
+                    
+                    <div>
+                        <button class="btn btn-small" onclick="editPartner(this)">Edit</button>
+                        <button class="btn btn-small btn-secondary" onclick="contactPartner(this)">Contact</button>
+                        <button class="btn btn-small" onclick="removePartner(this)" style="background: #dc3545;">Remove</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Collaboration Framework -->
+        <div class="section">
+            <h2>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M14,10H19.5L14,4.5V10M5,3H15L21,9V19A2,2 0 0,1 19,21H5C3.89,21 3,20.1 3,19V5C3,3.89 3.89,3 5,3M9,12H16V14H9V12M9,16H14V18H9V16Z"/>
+                </svg>
+                Collaboration Framework
+            </h2>
+            
+            <div class="collaboration-matrix">
+                <div class="matrix-item">
+                    <h4>Roles & Contributions</h4>
+                    <div class="form-group">
+                        <label for="yourRole">Your Organization's Role:</label>
+                        <textarea id="yourRole" rows="3" placeholder="What will your organization contribute? (resources, expertise, staff, etc.)"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="partnerRole">Partner's Expected Role:</label>
+                        <textarea id="partnerRole" rows="3" placeholder="What do you expect partners to contribute?"></textarea>
+                    </div>
+                </div>
+                
+                <div class="matrix-item">
+                    <h4>Communication Plan</h4>
+                    <div class="form-group">
+                        <label for="meetingFrequency">Meeting Frequency:</label>
+                        <select id="meetingFrequency">
+                            <option value="">Select frequency</option>
+                            <option value="weekly">Weekly</option>
+                            <option value="biweekly">Bi-weekly</option>
+                            <option value="monthly">Monthly</option>
+                            <option value="quarterly">Quarterly</option>
+                            <option value="as-needed">As Needed</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="communicationMethods">Communication Methods:</label>
+                        <textarea id="communicationMethods" rows="2" placeholder="Email, phone, video calls, in-person meetings, etc."></textarea>
+                    </div>
+                </div>
+                
+                <div class="matrix-item">
+                    <h4>Agreement Status</h4>
+                    <div class="form-group">
+                        <label for="agreementType">Agreement Type:</label>
+                        <select id="agreementType">
+                            <option value="">Select type</option>
+                            <option value="informal">Informal Agreement</option>
+                            <option value="mou">Memorandum of Understanding</option>
+                            <option value="contract">Formal Contract</option>
+                            <option value="grant">Grant Partnership</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="agreementStatus">Status:</label>
+                        <select id="agreementStatus">
+                            <option value="planning">Planning Phase</option>
+                            <option value="negotiating">Negotiating Terms</option>
+                            <option value="signed">Agreement Signed</option>
+                            <option value="active">Active Partnership</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="matrix-item">
+                    <h4>Evaluation Criteria</h4>
+                    <div class="form-group">
+                        <label for="successMetrics">Success Metrics:</label>
+                        <textarea id="successMetrics" rows="3" placeholder="How will you measure partnership success?"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="evaluationSchedule">Evaluation Schedule:</label>
+                        <input type="text" id="evaluationSchedule" placeholder="e.g., Quarterly reviews">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Partnership Types -->
+        <div class="section">
+            <h2>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12A10,10 0 0,1 12,2M11,16.5L18,9.5L16.59,8.09L11,13.67L7.91,10.59L6.5,12L11,16.5Z"/>
+                </svg>
+                Partnership Types & Opportunities
+            </h2>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1rem;">
+                <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 8px; border-left: 4px solid #28a745;">
+                    <h3 style="color: #28a745; margin-bottom: 1rem;">Service Partnerships</h3>
+                    <ul style="list-style: none; padding: 0;">
+                        <li style="margin-bottom: 0.5rem;">✓ Referral relationships</li>
+                        <li style="margin-bottom: 0.5rem;">✓ Collaborative programming</li>
+                        <li style="margin-bottom: 0.5rem;">✓ Resource sharing</li>
+                        <li style="margin-bottom: 0.5rem;">✓ Joint service delivery</li>
+                        <li style="margin-bottom: 0.5rem;">✓ Capacity building</li>
+                    </ul>
+                </div>
+                
+                <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 8px; border-left: 4px solid #007bff;">
+                    <h3 style="color: #007bff; margin-bottom: 1rem;">Advocacy Partnerships</h3>
+                    <ul style="list-style: none; padding: 0;">
+                        <li style="margin-bottom: 0.5rem;">✓ Coalition building</li>
+                        <li style="margin-bottom: 0.5rem;">✓ Policy advocacy</li>
+                        <li style="margin-bottom: 0.5rem;">✓ Public awareness campaigns</li>
+                        <li style="margin-bottom: 0.5rem;">✓ Systems change initiatives</li>
+                        <li style="margin-bottom: 0.5rem;">✓ Community organizing</li>
+                    </ul>
+                </div>
+                
+                <div style="background: #f8f9fa; padding: 1.5rem; border-radius: 8px; border-left: 4px solid #ffc107;">
+                    <h3 style="color: #e67e22; margin-bottom: 1rem;">Funding Partnerships</h3>
+                    <ul style="list-style: none; padding: 0;">
+                        <li style="margin-bottom: 0.5rem;">✓ Joint grant applications</li>
+                        <li style="margin-bottom: 0.5rem;">✓ Shared fundraising events</li>
+                        <li style="margin-bottom: 0.5rem;">✓ Corporate partnerships</li>
+                        <li style="margin-bottom: 0.5rem;">✓ Foundation relationships</li>
+                        <li style="margin-bottom: 0.5rem;">✓ Government contracts</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Action Planning -->
+        <div class="section">
+            <h2>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M16.2,16.2L11,13V7H12.5V12.2L17,14.9L16.2,16.2Z"/>
+                </svg>
+                Action Planning & Next Steps
+            </h2>
+            
+            <div class="form-group">
+                <label for="nextSteps">Immediate Next Steps:</label>
+                <textarea id="nextSteps" rows="4" placeholder="What are your immediate action items for partnership development?"></textarea>
+            </div>
+            
+            <div class="form-group">
+                <label for="challenges">Potential Challenges:</label>
+                <textarea id="challenges" rows="4" placeholder="What challenges might arise in partnerships and how will you address them?"></textarea>
+            </div>
+            
+            <div class="form-group">
+                <label for="resources">Resources Needed:</label>
+                <textarea id="resources" rows="3" placeholder="What resources (staff time, funding, materials) will you need for successful partnerships?"></textarea>
+            </div>
+            
+            <div class="form-group">
+                <label for="timeline">Partnership Development Timeline:</label>
+                <textarea id="timeline" rows="3" placeholder="What is your timeline for developing and implementing partnerships?"></textarea>
+            </div>
+        </div>
+
+        <div style="text-align: center; margin: 2rem 0;">
+            <button type="button" class="btn" onclick="saveCollaborationPlan()">Save Plan</button>
+            <button type="button" class="btn btn-secondary" onclick="loadCollaborationPlan()">Load Saved Plan</button>
+            <button type="button" class="btn" onclick="exportCollaborationPlan()">Export to PDF</button>
+            <button type="button" class="btn btn-secondary" onclick="clearCollaborationPlan()">Clear All</button>
+        </div>
+    </div>
+
+    <button class="btn print-btn" onclick="window.print()">Print Plan</button>
+
+    <div class="footer">
+        <p>&copy; 2025 ASCEND Nonprofits. Empowering nonprofits from vision to victory.</p>
+    </div>
+
+    <script>
+        let partners = [];
+        
+        function addPartner() {
+            const partnerName = document.getElementById('partnerName').value;
+            const partnerType = document.getElementById('partnerType').value;
+            const partnerMission = document.getElementById('partnerMission').value;
+            const contactPerson = document.getElementById('contactPerson').value;
+            const contactEmail = document.getElementById('contactEmail').value;
+            const contactPhone = document.getElementById('contactPhone').value;
+            const partnerNotes = document.getElementById('partnerNotes').value;
+            const relationshipStatus = document.getElementById('relationshipStatus').value;
+            
+            if (!partnerName) {
+                alert('Please enter the partner organization name.');
+                return;
+            }
+            
+            // Get selected shared goals
+            const goalCheckboxes = document.querySelectorAll('.checkbox-item input[type="checkbox"]:checked');
+            const sharedGoals = Array.from(goalCheckboxes).map(cb => cb.value);
+            
+            // Get ratings
+            const potential = document.querySelector('input[name="potential"]:checked')?.value || '';
+            const capacity = document.querySelector('input[name="capacity"]:checked')?.value || '';
+            
+            const partner = {
+                id: Date.now(),
+                name: partnerName,
+                type: partnerType,
+                mission: partnerMission,
+                contact: contactPerson,
+                email: contactEmail,
+                phone: contactPhone,
+                sharedGoals,
+                potential,
+                capacity,
+                relationshipStatus,
+                notes: partnerNotes
+            };
+            
+            partners.push(partner);
+            renderPartners();
+            clearPartnerForm();
+        }
+        
+        function clearPartnerForm() {
+            document.getElementById('partnerName').value = '';
+            document.getElementById('partnerType').value = '';
+            document.getElementById('partnerMission').value = '';
+            document.getElementById('contactPerson').value = '';
+            document.getElementById('contactEmail').value = '';
+            document.getElementById('contactPhone').value = '';
+            document.getElementById('partnerNotes').value = '';
+            document.getElementById('relationshipStatus').value = 'new';
+            
+            // Clear checkboxes and radio buttons
+            document.querySelectorAll('.checkbox-item input[type="checkbox"]').forEach(cb => {
+                cb.checked = false;
+                cb.closest('.checkbox-item').classList.remove('selected');
+            });
+            document.querySelectorAll('input[type="radio"]').forEach(radio => radio.checked = false);
+        }
+        
+        function renderPartners() {
+            const container = document.getElementById('partnersContainer');
+            container.innerHTML = '';
+            
+            // Sort partners by potential
+            const sortedPartners = [...partners].sort((a, b) => {
+                const potentialOrder = { high: 3, medium: 2, low: 1 };
+                return (potentialOrder[b.potential] || 0) - (potentialOrder[a.potential] || 0);
+            });
+            
+            sortedPartners.forEach(partner => {
+                const partnerCard = document.createElement('div');
+                partnerCard.className = `partner-card ${partner.potential}-potential`;
+                partnerCard.innerHTML = `
+                    <div class="partner-header">
+                        <div class="partner-name">${partner.name}</div>
+                        <div class="potential-badge ${partner.potential}">${getPotentialText(partner.potential)} Potential</div>
+                    </div>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 1rem;">
+                        <div><strong>Type:</strong> ${formatType(partner.type)}</div>
+                        <div><strong>Focus:</strong> ${partner.mission}</div>
+                        <div><strong>Contact:</strong> ${partner.contact}</div>
+                        <div><strong>Status:</strong> ${formatStatus(partner.relationshipStatus)}</div>
+                    </div>
+                    
+                    <div style="margin-bottom: 1rem;">
+                        <strong>Shared Goals:</strong> ${partner.sharedGoals.map(formatGoal).join(', ')}
+                    </div>
+                    
+                    ${partner.notes ? `<div style="margin-bottom: 1rem;"><strong>Notes:</strong> ${partner.notes}</div>` : ''}
+                    
+                    <div>
+                        <button class="btn btn-small" onclick="editPartner(${partner.id})">Edit</button>
+                        <button class="btn btn-small btn-secondary" onclick="contactPartner(${partner.id})">Contact</button>
+                        <button class="btn btn-small" onclick="removePartner(${partner.id})" style="background: #dc3545;">Remove</button>
+                    </div>
+                `;
+                container.appendChild(partnerCard);
+            });
+        }
+        
+        function formatType(type) {
+            const types = {
+                'nonprofit': 'Nonprofit',
+                'government': 'Government',
+                'business': 'Business',
+                'foundation': 'Foundation',
+                'educational': 'Educational',
+                'faith': 'Faith-Based',
+                'community': 'Community Group',
+                'other': 'Other'
+            };
+            return types[type] || type;
+        }
+        
+        function formatStatus(status) {
+            const statuses = {
+                'new': 'New Contact',
+                'existing': 'Existing Relationship',
+                'past': 'Past Partner',
+                'referred': 'Referred Contact'
+            };
+            return statuses[status] || status;
+        }
+        
+        function formatGoal(goal) {
+            const goals = {
+                'education': 'Education',
+                'health': 'Health & Wellness',
+                'poverty': 'Poverty Alleviation',
+                'environment': 'Environment',
+                'youth': 'Youth Development',
+                'seniors': 'Senior Services',
+                'housing': 'Housing',
+                'arts': 'Arts & Culture',
+                'advocacy': 'Advocacy',
+                'research': 'Research'
+            };
+            return goals[goal] || goal;
+        }
+        
+        function getPotentialText(potential) {
+            return potential ? potential.charAt(0).toUpperCase() + potential.slice(1) : '';
+        }
+        
+        function editPartner(partnerId) {
+            const partner = partners.find(p => p.id === partnerId);
+            if (partner) {
+                document.getElementById('partnerName').value = partner.name;
+                document.getElementById('partnerType').value = partner.type;
+                document.getElementById('partnerMission').value = partner.mission;
+                document.getElementById('contactPerson').value = partner.contact;
+                document.getElementById('contactEmail').value = partner.email;
+                document.getElementById('contactPhone').value = partner.phone;
+                document.getElementById('partnerNotes').value = partner.notes;
+                document.getElementById('relationshipStatus').value = partner.relationshipStatus;
+                
+                // Set shared goals
+                document.querySelectorAll('.checkbox-item input[type="checkbox"]').forEach(cb => {
+                    if (partner.sharedGoals.includes(cb.value)) {
+                        cb.checked = true;
+                        cb.closest('.checkbox-item').classList.add('selected');
+                    }
+                });
+                
+                // Set ratings
+                if (partner.potential) {
+                    document.querySelector(`input[name="potential"][value="${partner.potential}"]`).checked = true;
+                }
+                if (partner.capacity) {
+                    document.querySelector(`input[name="capacity"][value="${partner.capacity}"]`).checked = true;
+                }
+                
+                // Remove the partner so it can be re-added with updates
+                removePartner(partnerId);
+            }
+        }
+        
+        function contactPartner(partnerId) {
+            const partner = partners.find(p => p.id === partnerId);
+            if (partner && partner.email) {
+                window.open(`mailto:${partner.email}?subject=Partnership Opportunity`);
+            } else {
+                alert('No email address available for this partner.');
+            }
+        }
+        
+        function removePartner(partnerId) {
+            if (confirm('Are you sure you want to remove this partner?')) {
+                partners = partners.filter(p => p.id !== partnerId);
+                renderPartners();
+            }
+        }
+        
+        function saveCollaborationPlan() {
+            const data = {
+                organization: {
+                    orgName: document.getElementById('orgName').value,
+                    orgMission: document.getElementById('orgMission').value,
+                    orgStrengths: document.getElementById('orgStrengths').value,
+                    collaborationGoals: document.getElementById('collaborationGoals').value
+                },
+                framework: {
+                    yourRole: document.getElementById('yourRole').value,
+                    partnerRole: document.getElementById('partnerRole').value,
+                    meetingFrequency: document.getElementById('meetingFrequency').value,
+                    communicationMethods: document.getElementById('communicationMethods').value,
+                    agreementType: document.getElementById('agreementType').value,
+                    agreementStatus: document.getElementById('agreementStatus').value,
+                    successMetrics: document.getElementById('successMetrics').value,
+                    evaluationSchedule: document.getElementById('evaluationSchedule').value
+                },
+                actionPlan: {
+                    nextSteps: document.getElementById('nextSteps').value,
+                    challenges: document.getElementById('challenges').value,
+                    resources: document.getElementById('resources').value,
+                    timeline: document.getElementById('timeline').value
+                },
+                partners: partners
+            };
+            
+            localStorage.setItem('collaborationPlanData', JSON.stringify(data));
+            alert('Collaboration plan saved successfully!');
+        }
+        
+        function loadCollaborationPlan() {
+            const savedData = localStorage.getItem('collaborationPlanData');
+            if (savedData) {
+                const data = JSON.parse(savedData);
+                
+                // Load organization data
+                if (data.organization) {
+                    document.getElementById('orgName').value = data.organization.orgName || '';
+                    document.getElementById('orgMission').value = data.organization.orgMission || '';
+                    document.getElementById('orgStrengths').value = data.organization.orgStrengths || '';
+                    document.getElementById('collaborationGoals').value = data.organization.collaborationGoals || '';
+                }
+                
+                // Load framework data
+                if (data.framework) {
+                    document.getElementById('yourRole').value = data.framework.yourRole || '';
+                    document.getElementById('partnerRole').value = data.framework.partnerRole || '';
+                    document.getElementById('meetingFrequency').value = data.framework.meetingFrequency || '';
+                    document.getElementById('communicationMethods').value = data.framework.communicationMethods || '';
+                    document.getElementById('agreementType').value = data.framework.agreementType || '';
+                    document.getElementById('agreementStatus').value = data.framework.agreementStatus || '';
+                    document.getElementById('successMetrics').value = data.framework.successMetrics || '';
+                    document.getElementById('evaluationSchedule').value = data.framework.evaluationSchedule || '';
+                }
+                
+                // Load action plan data
+                if (data.actionPlan) {
+                    document.getElementById('nextSteps').value = data.actionPlan.nextSteps || '';
+                    document.getElementById('challenges').value = data.actionPlan.challenges || '';
+                    document.getElementById('resources').value = data.actionPlan.resources || '';
+                    document.getElementById('timeline').value = data.actionPlan.timeline || '';
+                }
+                
+                // Load partners
+                partners = data.partners || [];
+                renderPartners();
+                
+                alert('Collaboration plan loaded successfully!');
+            } else {
+                alert('No saved plan found.');
+            }
+        }
+        
+        function clearCollaborationPlan() {
+            if (confirm('Are you sure you want to clear all data?')) {
+                partners = [];
+                renderPartners();
+                
+                // Clear all form fields
+                const inputs = document.querySelectorAll('input, textarea, select');
+                inputs.forEach(input => {
+                    if (input.type === 'checkbox' || input.type === 'radio') {
+                        input.checked = false;
+                    } else {
+                        input.value = '';
+                    }
+                });
+                
+                // Remove selected classes
+                document.querySelectorAll('.checkbox-item').forEach(item => {
+                    item.classList.remove('selected');
+                });
+                
+                localStorage.removeItem('collaborationPlanData');
+            }
+        }
+        
+        function exportCollaborationPlan() {
+            window.print();
+        }
+        
+        // Add event listeners for checkbox selection styling
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('.checkbox-item input[type="checkbox"]').forEach(checkbox => {
+                checkbox.addEventListener('change', function() {
+                    if (this.checked) {
+                        this.closest('.checkbox-item').classList.add('selected');
+                    } else {
+                        this.closest('.checkbox-item').classList.remove('selected');
+                    }
+                });
+            });
+            
+            // Load saved data
+            loadCollaborationPlan();
+        });
+        
+        // Auto-save every 30 seconds
+        setInterval(function() {
+            if (partners.length > 0 || document.getElementById('orgName').value.trim() !== '') {
+                saveCollaborationPlan();
+            }
+        }, 30000);
+    </script>
+</body>
+</html>

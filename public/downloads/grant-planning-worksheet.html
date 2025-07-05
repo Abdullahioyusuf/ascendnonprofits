@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grant Planning Worksheet - ASCEND Nonprofits</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+            color: #000000;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #C1272D 0%, #8B1A1F 100%);
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(193, 39, 45, 0.3);
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+        
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .section {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            border-left: 4px solid #C1272D;
+        }
+        
+        .section h2 {
+            color: #C1272D;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            color: #000000;
+        }
+        
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+        
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #C1272D;
+            box-shadow: 0 0 0 3px rgba(193, 39, 45, 0.1);
+        }
+        
+        .form-group textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+        
+        .checkbox-group {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
+        
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .checkbox-item input[type="checkbox"] {
+            width: auto;
+            margin: 0;
+        }
+        
+        .date-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+        
+        .btn {
+            background: linear-gradient(135deg, #C1272D 0%, #8B1A1F 100%);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-right: 1rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(193, 39, 45, 0.3);
+        }
+        
+        .btn-secondary {
+            background: linear-gradient(135deg, #000000 0%, #333333 100%);
+        }
+        
+        .btn-secondary:hover {
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        .progress-bar {
+            background: #e9ecef;
+            border-radius: 10px;
+            height: 8px;
+            margin: 1rem 0;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            background: linear-gradient(90deg, #C1272D 0%, #8B1A1F 100%);
+            height: 100%;
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+        
+        .icon {
+            width: 20px;
+            height: 20px;
+            fill: currentColor;
+        }
+        
+        .footer {
+            background: #000000;
+            color: white;
+            text-align: center;
+            padding: 2rem;
+            margin-top: 3rem;
+        }
+        
+        .footer p {
+            opacity: 0.8;
+        }
+        
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .container {
+                padding: 1rem;
+            }
+            
+            .section {
+                padding: 1.5rem;
+            }
+            
+            .date-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .print-btn {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            z-index: 1000;
+        }
+        
+        @media print {
+            .print-btn, .btn {
+                display: none;
+            }
+            
+            .header {
+                background: #C1272D !important;
+                -webkit-print-color-adjust: exact;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Grant Planning Worksheet</h1>
+        <p>A structured tool to help you organize and plan your grant applications effectively</p>
+    </div>
+
+    <div class="container">
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressFill"></div>
+        </div>
+
+        <form id="grantPlanningForm">
+            <!-- Grant Purpose Section -->
+            <div class="section">
+                <h2>
+                    <svg class="icon" viewBox="0 0 24 24">
+                        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                    </svg>
+                    Grant Purpose
+                </h2>
+                <div class="form-group">
+                    <label for="grantGoal">Clearly define the goal of the grant:</label>
+                    <textarea id="grantGoal" name="grantGoal" placeholder="What specific outcome or impact do you want to achieve with this grant funding?"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="projectTitle">Project/Program Title:</label>
+                    <input type="text" id="projectTitle" name="projectTitle" placeholder="Enter the name of your project or program">
+                </div>
+                <div class="form-group">
+                    <label for="fundingAmount">Requested Funding Amount:</label>
+                    <input type="number" id="fundingAmount" name="fundingAmount" placeholder="$0" min="0" step="100">
+                </div>
+            </div>
+
+            <!-- Funder Information Section -->
+            <div class="section">
+                <h2>
+                    <svg class="icon" viewBox="0 0 24 24">
+                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                    </svg>
+                    Funder Information
+                </h2>
+                <div class="form-group">
+                    <label for="funderName">Funder Name:</label>
+                    <input type="text" id="funderName" name="funderName" placeholder="Foundation, government agency, or corporation name">
+                </div>
+                <div class="form-group">
+                    <label for="contactPerson">Contact Person:</label>
+                    <input type="text" id="contactPerson" name="contactPerson" placeholder="Program officer or contact name">
+                </div>
+                <div class="form-group">
+                    <label for="contactEmail">Contact Email:</label>
+                    <input type="email" id="contactEmail" name="contactEmail" placeholder="contact@funder.org">
+                </div>
+                <div class="form-group">
+                    <label for="contactPhone">Contact Phone:</label>
+                    <input type="tel" id="contactPhone" name="contactPhone" placeholder="(555) 123-4567">
+                </div>
+                <div class="form-group">
+                    <label for="fundingPriorities">Funding Priorities:</label>
+                    <textarea id="fundingPriorities" name="fundingPriorities" placeholder="What are this funder's key focus areas and priorities?"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="applicationDeadline">Application Deadline:</label>
+                    <input type="date" id="applicationDeadline" name="applicationDeadline">
+                </div>
+            </div>
+
+            <!-- Application Checklist Section -->
+            <div class="section">
+                <h2>
+                    <svg class="icon" viewBox="0 0 24 24">
+                        <path d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M18,20H6V4H13V9H18V20Z"/>
+                    </svg>
+                    Application Checklist
+                </h2>
+                <div class="form-group">
+                    <label>Required Documents:</label>
+                    <div class="checkbox-group">
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="proposal" name="documents" value="proposal">
+                            <label for="proposal">Project Proposal</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="budget" name="documents" value="budget">
+                            <label for="budget">Detailed Budget</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="timeline" name="documents" value="timeline">
+                            <label for="timeline">Project Timeline</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="orgChart" name="documents" value="orgChart">
+                            <label for="orgChart">Organizational Chart</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="boardList" name="documents" value="boardList">
+                            <label for="boardList">Board of Directors List</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="financials" name="documents" value="financials">
+                            <label for="financials">Financial Statements</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="taxExempt" name="documents" value="taxExempt">
+                            <label for="taxExempt">Tax-Exempt Letter</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="letters" name="documents" value="letters">
+                            <label for="letters">Letters of Support</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="evaluation" name="documents" value="evaluation">
+                            <label for="evaluation">Evaluation Plan</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="sustainability" name="documents" value="sustainability">
+                            <label for="sustainability">Sustainability Plan</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="submissionInstructions">Submission Instructions:</label>
+                    <textarea id="submissionInstructions" name="submissionInstructions" placeholder="How should the application be submitted? Online portal, email, mail, etc."></textarea>
+                </div>
+            </div>
+
+            <!-- Timeline Section -->
+            <div class="section">
+                <h2>
+                    <svg class="icon" viewBox="0 0 24 24">
+                        <path d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M16.2,16.2L11,13V7H12.5V12.2L17,14.9L16.2,16.2Z"/>
+                    </svg>
+                    Timeline
+                </h2>
+                <div class="date-grid">
+                    <div class="form-group">
+                        <label for="draftStart">Start Drafting:</label>
+                        <input type="date" id="draftStart" name="draftStart">
+                    </div>
+                    <div class="form-group">
+                        <label for="firstDraft">First Draft Complete:</label>
+                        <input type="date" id="firstDraft" name="firstDraft">
+                    </div>
+                    <div class="form-group">
+                        <label for="internalReview">Internal Review:</label>
+                        <input type="date" id="internalReview" name="internalReview">
+                    </div>
+                    <div class="form-group">
+                        <label for="externalReview">External Review:</label>
+                        <input type="date" id="externalReview" name="externalReview">
+                    </div>
+                    <div class="form-group">
+                        <label for="finalDraft">Final Draft:</label>
+                        <input type="date" id="finalDraft" name="finalDraft">
+                    </div>
+                    <div class="form-group">
+                        <label for="submission">Submission Date:</label>
+                        <input type="date" id="submission" name="submission">
+                    </div>
+                    <div class="form-group">
+                        <label for="followUp">Follow-up Date:</label>
+                        <input type="date" id="followUp" name="followUp">
+                    </div>
+                    <div class="form-group">
+                        <label for="decisionDate">Expected Decision:</label>
+                        <input type="date" id="decisionDate" name="decisionDate">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Notes Section -->
+            <div class="section">
+                <h2>
+                    <svg class="icon" viewBox="0 0 24 24">
+                        <path d="M14,10H19.5L14,4.5V10M5,3H15L21,9V19A2,2 0 0,1 19,21H5C3.89,21 3,20.1 3,19V5C3,3.89 3.89,3 5,3M9,12H16V14H9V12M9,16H14V18H9V16Z"/>
+                    </svg>
+                    Additional Notes & Strategy
+                </h2>
+                <div class="form-group">
+                    <label for="keyMessages">Key Messages to Emphasize:</label>
+                    <textarea id="keyMessages" name="keyMessages" placeholder="What are the most important points to highlight in this proposal?"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="competitiveAdvantage">Competitive Advantage:</label>
+                    <textarea id="competitiveAdvantage" name="competitiveAdvantage" placeholder="What makes your organization uniquely qualified for this grant?"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="risks">Potential Risks/Challenges:</label>
+                    <textarea id="risks" name="risks" placeholder="What challenges might arise and how will you address them?"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="additionalNotes">Additional Notes:</label>
+                    <textarea id="additionalNotes" name="additionalNotes" placeholder="Any other important information or reminders"></textarea>
+                </div>
+            </div>
+
+            <div style="text-align: center; margin: 2rem 0;">
+                <button type="button" class="btn" onclick="saveForm()">Save Progress</button>
+                <button type="button" class="btn btn-secondary" onclick="loadForm()">Load Saved Data</button>
+                <button type="button" class="btn" onclick="exportToPDF()">Export to PDF</button>
+                <button type="button" class="btn btn-secondary" onclick="clearForm()">Clear Form</button>
+            </div>
+        </form>
+    </div>
+
+    <button class="btn print-btn" onclick="window.print()">Print Worksheet</button>
+
+    <div class="footer">
+        <p>&copy; 2025 ASCEND Nonprofits. Empowering nonprofits from vision to victory.</p>
+    </div>
+
+    <script>
+        // Progress tracking
+        function updateProgress() {
+            const form = document.getElementById('grantPlanningForm');
+            const inputs = form.querySelectorAll('input, textarea, select');
+            let filled = 0;
+            
+            inputs.forEach(input => {
+                if (input.type === 'checkbox') {
+                    if (input.checked) filled++;
+                } else if (input.value.trim() !== '') {
+                    filled++;
+                }
+            });
+            
+            const progress = (filled / inputs.length) * 100;
+            document.getElementById('progressFill').style.width = progress + '%';
+        }
+
+        // Add event listeners to all form inputs
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('grantPlanningForm');
+            const inputs = form.querySelectorAll('input, textarea, select');
+            
+            inputs.forEach(input => {
+                input.addEventListener('input', updateProgress);
+                input.addEventListener('change', updateProgress);
+            });
+            
+            updateProgress();
+            loadForm(); // Auto-load saved data
+        });
+
+        // Save form data to localStorage
+        function saveForm() {
+            const form = document.getElementById('grantPlanningForm');
+            const formData = new FormData(form);
+            const data = {};
+            
+            // Handle regular inputs
+            for (let [key, value] of formData.entries()) {
+                if (data[key]) {
+                    if (Array.isArray(data[key])) {
+                        data[key].push(value);
+                    } else {
+                        data[key] = [data[key], value];
+                    }
+                } else {
+                    data[key] = value;
+                }
+            }
+            
+            // Handle checkboxes separately
+            const checkboxes = form.querySelectorAll('input[type="checkbox"]');
+            checkboxes.forEach(checkbox => {
+                data[checkbox.id] = checkbox.checked;
+            });
+            
+            localStorage.setItem('grantPlanningData', JSON.stringify(data));
+            alert('Form data saved successfully!');
+        }
+
+        // Load form data from localStorage
+        function loadForm() {
+            const savedData = localStorage.getItem('grantPlanningData');
+            if (savedData) {
+                const data = JSON.parse(savedData);
+                
+                Object.keys(data).forEach(key => {
+                    const element = document.getElementById(key) || document.querySelector(`[name="${key}"]`);
+                    if (element) {
+                        if (element.type === 'checkbox') {
+                            element.checked = data[key];
+                        } else {
+                            element.value = data[key];
+                        }
+                    }
+                });
+                
+                updateProgress();
+            }
+        }
+
+        // Clear form
+        function clearForm() {
+            if (confirm('Are you sure you want to clear all form data?')) {
+                document.getElementById('grantPlanningForm').reset();
+                localStorage.removeItem('grantPlanningData');
+                updateProgress();
+            }
+        }
+
+        // Export to PDF (simplified version)
+        function exportToPDF() {
+            window.print();
+        }
+
+        // Auto-save every 30 seconds
+        setInterval(function() {
+            const form = document.getElementById('grantPlanningForm');
+            const inputs = form.querySelectorAll('input, textarea, select');
+            let hasData = false;
+            
+            inputs.forEach(input => {
+                if (input.value.trim() !== '' || (input.type === 'checkbox' && input.checked)) {
+                    hasData = true;
+                }
+            });
+            
+            if (hasData) {
+                saveForm();
+            }
+        }, 30000);
+    </script>
+</body>
+</html>

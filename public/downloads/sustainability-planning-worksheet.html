@@ -1,0 +1,862 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sustainability Planning Worksheet - ASCEND Nonprofits</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+            color: #000000;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #C1272D 0%, #8B1A1F 100%);
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(193, 39, 45, 0.3);
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+        
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .section {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            border-left: 4px solid #C1272D;
+        }
+        
+        .section h2 {
+            color: #C1272D;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .assessment-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+        
+        .assessment-item {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 8px;
+            border-left: 4px solid #007bff;
+        }
+        
+        .assessment-item.strong {
+            border-left-color: #28a745;
+            background: #f0fff4;
+        }
+        
+        .assessment-item.moderate {
+            border-left-color: #ffc107;
+            background: #fffbf0;
+        }
+        
+        .assessment-item.weak {
+            border-left-color: #dc3545;
+            background: #fff5f5;
+        }
+        
+        .assessment-item h4 {
+            margin-bottom: 1rem;
+            color: #000;
+        }
+        
+        .rating-scale {
+            display: flex;
+            gap: 0.5rem;
+            margin: 1rem 0;
+            flex-wrap: wrap;
+        }
+        
+        .rating-option {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+            padding: 0.5rem;
+            background: white;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .rating-option:hover {
+            border-color: #C1272D;
+        }
+        
+        .rating-option.selected {
+            border-color: #C1272D;
+            background: #fff5f5;
+        }
+        
+        .rating-option input[type="radio"] {
+            margin: 0;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            color: #000000;
+        }
+        
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+        
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #C1272D;
+            box-shadow: 0 0 0 3px rgba(193, 39, 45, 0.1);
+        }
+        
+        .sustainability-score {
+            background: linear-gradient(135deg, #C1272D 0%, #8B1A1F 100%);
+            color: white;
+            padding: 2rem;
+            border-radius: 12px;
+            text-align: center;
+            margin: 2rem 0;
+        }
+        
+        .score-display {
+            font-size: 3rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+        
+        .score-description {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .action-items {
+            background: #e3f2fd;
+            border: 1px solid #2196f3;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1rem 0;
+        }
+        
+        .action-items h4 {
+            color: #1976d2;
+            margin-bottom: 1rem;
+        }
+        
+        .btn {
+            background: linear-gradient(135deg, #C1272D 0%, #8B1A1F 100%);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-right: 1rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(193, 39, 45, 0.3);
+        }
+        
+        .btn-secondary {
+            background: linear-gradient(135deg, #000000 0%, #333333 100%);
+        }
+        
+        .btn-secondary:hover {
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        .footer {
+            background: #000000;
+            color: white;
+            text-align: center;
+            padding: 2rem;
+            margin-top: 3rem;
+        }
+        
+        .footer p {
+            opacity: 0.8;
+        }
+        
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .container {
+                padding: 1rem;
+            }
+            
+            .section {
+                padding: 1.5rem;
+            }
+            
+            .assessment-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .rating-scale {
+                flex-direction: column;
+            }
+        }
+        
+        .print-btn {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            z-index: 1000;
+        }
+        
+        @media print {
+            .print-btn, .btn {
+                display: none;
+            }
+            
+            .header {
+                background: #C1272D !important;
+                -webkit-print-color-adjust: exact;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Sustainability Planning Worksheet</h1>
+        <p>Assess and strengthen your nonprofit's long-term viability</p>
+    </div>
+
+    <div class="container">
+        <!-- Organization Overview -->
+        <div class="section">
+            <h2>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                </svg>
+                Organization Overview
+            </h2>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1rem;">
+                <div class="form-group">
+                    <label for="orgName">Organization Name:</label>
+                    <input type="text" id="orgName" placeholder="Enter organization name">
+                </div>
+                <div class="form-group">
+                    <label for="orgAge">Years in Operation:</label>
+                    <input type="number" id="orgAge" placeholder="Number of years" min="0">
+                </div>
+                <div class="form-group">
+                    <label for="annualBudget">Annual Budget:</label>
+                    <input type="number" id="annualBudget" placeholder="$0" min="0" step="1000">
+                </div>
+                <div class="form-group">
+                    <label for="staffSize">Number of Staff:</label>
+                    <input type="number" id="staffSize" placeholder="Full-time equivalent" min="0">
+                </div>
+            </div>
+        </div>
+
+        <!-- Sustainability Assessment -->
+        <div class="section">
+            <h2>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M16,6L18.29,8.29L13.41,13.17L9.41,9.17L2,16.59L3.41,18L9.41,12L13.41,16L19.71,9.71L22,12V6H16Z"/>
+                </svg>
+                Sustainability Assessment
+            </h2>
+            <p style="margin-bottom: 2rem; color: #666;">Rate each area on a scale of 1-5 (1 = Very Weak, 5 = Very Strong)</p>
+            
+            <div class="assessment-grid">
+                <!-- Funding Diversity -->
+                <div class="assessment-item" id="funding-assessment">
+                    <h4>Funding Diversity</h4>
+                    <p style="margin-bottom: 1rem; color: #666;">Multiple revenue streams and financial stability</p>
+                    <div class="rating-scale">
+                        <div class="rating-option" onclick="selectRating('funding', 1)">
+                            <input type="radio" name="funding" value="1" id="funding-1">
+                            <label for="funding-1">1 - Very Weak</label>
+                        </div>
+                        <div class="rating-option" onclick="selectRating('funding', 2)">
+                            <input type="radio" name="funding" value="2" id="funding-2">
+                            <label for="funding-2">2 - Weak</label>
+                        </div>
+                        <div class="rating-option" onclick="selectRating('funding', 3)">
+                            <input type="radio" name="funding" value="3" id="funding-3">
+                            <label for="funding-3">3 - Moderate</label>
+                        </div>
+                        <div class="rating-option" onclick="selectRating('funding', 4)">
+                            <input type="radio" name="funding" value="4" id="funding-4">
+                            <label for="funding-4">4 - Strong</label>
+                        </div>
+                        <div class="rating-option" onclick="selectRating('funding', 5)">
+                            <input type="radio" name="funding" value="5" id="funding-5">
+                            <label for="funding-5">5 - Very Strong</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Leadership Capacity -->
+                <div class="assessment-item" id="leadership-assessment">
+                    <h4>Leadership Capacity</h4>
+                    <p style="margin-bottom: 1rem; color: #666;">Strong leadership and succession planning</p>
+                    <div class="rating-scale">
+                        <div class="rating-option" onclick="selectRating('leadership', 1)">
+                            <input type="radio" name="leadership" value="1" id="leadership-1">
+                            <label for="leadership-1">1 - Very Weak</label>
+                        </div>
+                        <div class="rating-option" onclick="selectRating('leadership', 2)">
+                            <input type="radio" name="leadership" value="2" id="leadership-2">
+                            <label for="leadership-2">2 - Weak</label>
+                        </div>
+                        <div class="rating-option" onclick="selectRating('leadership', 3)">
+                            <input type="radio" name="leadership" value="3" id="leadership-3">
+                            <label for="leadership-3">3 - Moderate</label>
+                        </div>
+                        <div class="rating-option" onclick="selectRating('leadership', 4)">
+                            <input type="radio" name="leadership" value="4" id="leadership-4">
+                            <label for="leadership-4">4 - Strong</label>
+                        </div>
+                        <div class="rating-option" onclick="selectRating('leadership', 5)">
+                            <input type="radio" name="leadership" value="5" id="leadership-5">
+                            <label for="leadership-5">5 - Very Strong</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Organizational Culture -->
+                <div class="assessment-item" id="culture-assessment">
+                    <h4>Organizational Culture</h4>
+                    <p style="margin-bottom: 1rem; color: #666;">Staff morale, retention, and organizational health</p>
+                    <div class="rating-scale">
+                        <div class="rating-option" onclick="selectRating('culture', 1)">
+                            <input type="radio" name="culture" value="1" id="culture-1">
+                            <label for="culture-1">1 - Very Weak</label>
+                        </div>
+                        <div class="rating-option" onclick="selectRating('culture', 2)">
+                            <input type="radio" name="culture" value="2" id="culture-2">
+                            <label for="culture-2">2 - Weak</label>
+                        </div>
+                        <div class="rating-option" onclick="selectRating('culture', 3)">
+                            <input type="radio" name="culture" value="3" id="culture-3">
+                            <label for="culture-3">3 - Moderate</label>
+                        </div>
+                        <div class="rating-option" onclick="selectRating('culture', 4)">
+                            <input type="radio" name="culture" value="4" id="culture-4">
+                            <label for="culture-4">4 - Strong</label>
+                        </div>
+                        <div class="rating-option" onclick="selectRating('culture', 5)">
+                            <input type="radio" name="culture" value="5" id="culture-5">
+                            <label for="culture-5">5 - Very Strong</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Systems & Infrastructure -->
+                <div class="assessment-item" id="systems-assessment">
+                    <h4>Systems & Infrastructure</h4>
+                    <p style="margin-bottom: 1rem; color: #666;">Technology, processes, and operational efficiency</p>
+                    <div class="rating-scale">
+                        <div class="rating-option" onclick="selectRating('systems', 1)">
+                            <input type="radio" name="systems" value="1" id="systems-1">
+                            <label for="systems-1">1 - Very Weak</label>
+                        </div>
+                        <div class="rating-option" onclick="selectRating('systems', 2)">
+                            <input type="radio" name="systems" value="2" id="systems-2">
+                            <label for="systems-2">2 - Weak</label>
+                        </div>
+                        <div class="rating-option" onclick="selectRating('systems', 3)">
+                            <input type="radio" name="systems" value="3" id="systems-3">
+                            <label for="systems-3">3 - Moderate</label>
+                        </div>
+                        <div class="rating-option" onclick="selectRating('systems', 4)">
+                            <input type="radio" name="systems" value="4" id="systems-4">
+                            <label for="systems-4">4 - Strong</label>
+                        </div>
+                        <div class="rating-option" onclick="selectRating('systems', 5)">
+                            <input type="radio" name="systems" value="5" id="systems-5">
+                            <label for="systems-5">5 - Very Strong</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Innovation & Adaptability -->
+                <div class="assessment-item" id="innovation-assessment">
+                    <h4>Innovation & Adaptability</h4>
+                    <p style="margin-bottom: 1rem; color: #666;">Ability to evolve and respond to changing environments</p>
+                    <div class="rating-scale">
+                        <div class="rating-option" onclick="selectRating('innovation', 1)">
+                            <input type="radio" name="innovation" value="1" id="innovation-1">
+                            <label for="innovation-1">1 - Very Weak</label>
+                        </div>
+                        <div class="rating-option" onclick="selectRating('innovation', 2)">
+                            <input type="radio" name="innovation" value="2" id="innovation-2">
+                            <label for="innovation-2">2 - Weak</label>
+                        </div>
+                        <div class="rating-option" onclick="selectRating('innovation', 3)">
+                            <input type="radio" name="innovation" value="3" id="innovation-3">
+                            <label for="innovation-3">3 - Moderate</label>
+                        </div>
+                        <div class="rating-option" onclick="selectRating('innovation', 4)">
+                            <input type="radio" name="innovation" value="4" id="innovation-4">
+                            <label for="innovation-4">4 - Strong</label>
+                        </div>
+                        <div class="rating-option" onclick="selectRating('innovation', 5)">
+                            <input type="radio" name="innovation" value="5" id="innovation-5">
+                            <label for="innovation-5">5 - Very Strong</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Board Engagement -->
+                <div class="assessment-item" id="board-assessment">
+                    <h4>Board Engagement</h4>
+                    <p style="margin-bottom: 1rem; color: #666;">Active board participation in governance and fundraising</p>
+                    <div class="rating-scale">
+                        <div class="rating-option" onclick="selectRating('board', 1)">
+                            <input type="radio" name="board" value="1" id="board-1">
+                            <label for="board-1">1 - Very Weak</label>
+                        </div>
+                        <div class="rating-option" onclick="selectRating('board', 2)">
+                            <input type="radio" name="board" value="2" id="board-2">
+                            <label for="board-2">2 - Weak</label>
+                        </div>
+                        <div class="rating-option" onclick="selectRating('board', 3)">
+                            <input type="radio" name="board" value="3" id="board-3">
+                            <label for="board-3">3 - Moderate</label>
+                        </div>
+                        <div class="rating-option" onclick="selectRating('board', 4)">
+                            <input type="radio" name="board" value="4" id="board-4">
+                            <label for="board-4">4 - Strong</label>
+                        </div>
+                        <div class="rating-option" onclick="selectRating('board', 5)">
+                            <input type="radio" name="board" value="5" id="board-5">
+                            <label for="board-5">5 - Very Strong</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sustainability Score -->
+        <div class="sustainability-score" id="sustainabilityScore">
+            <div class="score-display" id="scoreDisplay">--</div>
+            <div class="score-description" id="scoreDescription">Complete the assessment to see your sustainability score</div>
+        </div>
+
+        <!-- Detailed Analysis -->
+        <div class="section">
+            <h2>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M14,10H19.5L14,4.5V10M5,3H15L21,9V19A2,2 0 0,1 19,21H5C3.89,21 3,20.1 3,19V5C3,3.89 3.89,3 5,3M9,12H16V14H9V12M9,16H14V18H9V16Z"/>
+                </svg>
+                Detailed Analysis
+            </h2>
+            
+            <div class="form-group">
+                <label for="currentStrengths">Current Strengths:</label>
+                <textarea id="currentStrengths" rows="4" placeholder="What are your organization's greatest strengths that contribute to sustainability?"></textarea>
+            </div>
+            
+            <div class="form-group">
+                <label for="vulnerabilities">Key Vulnerabilities:</label>
+                <textarea id="vulnerabilities" rows="4" placeholder="What are the main risks or weaknesses that threaten your organization's sustainability?"></textarea>
+            </div>
+            
+            <div class="form-group">
+                <label for="opportunities">Growth Opportunities:</label>
+                <textarea id="opportunities" rows="4" placeholder="What opportunities exist to strengthen your organization's sustainability?"></textarea>
+            </div>
+            
+            <div class="form-group">
+                <label for="threats">External Threats:</label>
+                <textarea id="threats" rows="4" placeholder="What external factors could negatively impact your organization's future?"></textarea>
+            </div>
+        </div>
+
+        <!-- Action Planning -->
+        <div class="section">
+            <h2>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M16.2,16.2L11,13V7H12.5V12.2L17,14.9L16.2,16.2Z"/>
+                </svg>
+                Action Planning
+            </h2>
+            
+            <div class="action-items">
+                <h4>📋 Recommended Action Items</h4>
+                <div id="actionItemsList">
+                    <p>Complete the sustainability assessment to receive personalized recommendations.</p>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="priorityActions">Priority Actions (Next 6 Months):</label>
+                <textarea id="priorityActions" rows="4" placeholder="What are the most important actions you will take in the next 6 months to improve sustainability?"></textarea>
+            </div>
+            
+            <div class="form-group">
+                <label for="longTermGoals">Long-term Goals (1-3 Years):</label>
+                <textarea id="longTermGoals" rows="4" placeholder="What are your long-term sustainability goals?"></textarea>
+            </div>
+            
+            <div class="form-group">
+                <label for="resourceNeeds">Resource Requirements:</label>
+                <textarea id="resourceNeeds" rows="3" placeholder="What resources (funding, staff, expertise) do you need to achieve these goals?"></textarea>
+            </div>
+            
+            <div class="form-group">
+                <label for="successMetrics">Success Metrics:</label>
+                <textarea id="successMetrics" rows="3" placeholder="How will you measure progress toward sustainability goals?"></textarea>
+            </div>
+        </div>
+
+        <!-- Financial Sustainability -->
+        <div class="section">
+            <h2>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M7,15H9C9,16.08 10.37,17 12,17C13.63,17 15,16.08 15,15C15,13.9 13.96,13.5 11.76,12.97C9.64,12.44 7,11.78 7,9C7,7.21 8.47,5.69 10.5,5.18V3H13.5V5.18C15.53,5.69 17,7.21 17,9H15C15,7.92 13.63,7 12,7C10.37,7 9,7.92 9,9C9,10.1 10.04,10.5 12.24,11.03C14.36,11.56 17,12.22 17,15C17,16.79 15.53,18.31 13.5,18.82V21H10.5V18.82C8.47,18.31 7,16.79 7,15Z"/>
+                </svg>
+                Financial Sustainability Planning
+            </h2>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1rem;">
+                <div class="form-group">
+                    <label for="revenueGoal">Annual Revenue Goal:</label>
+                    <input type="number" id="revenueGoal" placeholder="$0" min="0" step="1000">
+                </div>
+                <div class="form-group">
+                    <label for="reserveGoal">Operating Reserve Goal:</label>
+                    <input type="number" id="reserveGoal" placeholder="Months of operating expenses" min="0" step="0.5">
+                </div>
+                <div class="form-group">
+                    <label for="diversificationPlan">Revenue Diversification Plan:</label>
+                    <textarea id="diversificationPlan" rows="3" placeholder="How will you diversify your revenue streams?"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="costReduction">Cost Management Strategy:</label>
+                    <textarea id="costReduction" rows="3" placeholder="How will you manage and reduce costs while maintaining quality?"></textarea>
+                </div>
+            </div>
+        </div>
+
+        <div style="text-align: center; margin: 2rem 0;">
+            <button type="button" class="btn" onclick="saveSustainabilityPlan()">Save Plan</button>
+            <button type="button" class="btn btn-secondary" onclick="loadSustainabilityPlan()">Load Saved Plan</button>
+            <button type="button" class="btn" onclick="exportSustainabilityPlan()">Export to PDF</button>
+            <button type="button" class="btn btn-secondary" onclick="clearSustainabilityPlan()">Clear All</button>
+        </div>
+    </div>
+
+    <button class="btn print-btn" onclick="window.print()">Print Plan</button>
+
+    <div class="footer">
+        <p>&copy; 2025 ASCEND Nonprofits. Empowering nonprofits from vision to victory.</p>
+    </div>
+
+    <script>
+        let assessmentScores = {
+            funding: 0,
+            leadership: 0,
+            culture: 0,
+            systems: 0,
+            innovation: 0,
+            board: 0
+        };
+        
+        function selectRating(category, rating) {
+            // Update the score
+            assessmentScores[category] = rating;
+            
+            // Update visual selection
+            const categoryOptions = document.querySelectorAll(`input[name="${category}"]`);
+            categoryOptions.forEach(option => {
+                option.closest('.rating-option').classList.remove('selected');
+            });
+            
+            const selectedOption = document.getElementById(`${category}-${rating}`);
+            selectedOption.checked = true;
+            selectedOption.closest('.rating-option').classList.add('selected');
+            
+            // Update assessment item styling
+            updateAssessmentItemStyling(category, rating);
+            
+            // Calculate and update overall score
+            calculateSustainabilityScore();
+            
+            // Update action items
+            updateActionItems();
+        }
+        
+        function updateAssessmentItemStyling(category, rating) {
+            const assessmentItem = document.getElementById(`${category}-assessment`);
+            assessmentItem.classList.remove('weak', 'moderate', 'strong');
+            
+            if (rating <= 2) {
+                assessmentItem.classList.add('weak');
+            } else if (rating <= 3) {
+                assessmentItem.classList.add('moderate');
+            } else {
+                assessmentItem.classList.add('strong');
+            }
+        }
+        
+        function calculateSustainabilityScore() {
+            const scores = Object.values(assessmentScores);
+            const completedScores = scores.filter(score => score > 0);
+            
+            if (completedScores.length === 0) {
+                document.getElementById('scoreDisplay').textContent = '--';
+                document.getElementById('scoreDescription').textContent = 'Complete the assessment to see your sustainability score';
+                return;
+            }
+            
+            const averageScore = completedScores.reduce((sum, score) => sum + score, 0) / completedScores.length;
+            const percentageScore = Math.round((averageScore / 5) * 100);
+            
+            document.getElementById('scoreDisplay').textContent = percentageScore + '%';
+            
+            let description = '';
+            if (percentageScore >= 80) {
+                description = 'Excellent - Your organization shows strong sustainability indicators';
+            } else if (percentageScore >= 60) {
+                description = 'Good - Solid foundation with room for improvement';
+            } else if (percentageScore >= 40) {
+                description = 'Moderate - Several areas need attention for long-term sustainability';
+            } else {
+                description = 'Needs Improvement - Significant sustainability challenges require immediate attention';
+            }
+            
+            document.getElementById('scoreDescription').textContent = description;
+        }
+        
+        function updateActionItems() {
+            const actionItemsList = document.getElementById('actionItemsList');
+            const recommendations = [];
+            
+            // Generate recommendations based on low scores
+            Object.entries(assessmentScores).forEach(([category, score]) => {
+                if (score > 0 && score <= 2) {
+                    recommendations.push(getRecommendation(category));
+                }
+            });
+            
+            if (recommendations.length === 0) {
+                actionItemsList.innerHTML = '<p>Great work! Continue monitoring and maintaining your current sustainability practices.</p>';
+            } else {
+                actionItemsList.innerHTML = '<ul style="list-style: none; padding: 0;">' + 
+                    recommendations.map(rec => `<li style="margin-bottom: 0.5rem; padding: 0.5rem; background: white; border-radius: 4px; border-left: 4px solid #dc3545;">• ${rec}</li>`).join('') + 
+                    '</ul>';
+            }
+        }
+        
+        function getRecommendation(category) {
+            const recommendations = {
+                funding: 'Develop a revenue diversification plan with at least 3-4 different funding sources',
+                leadership: 'Create a leadership development and succession planning program',
+                culture: 'Conduct staff satisfaction surveys and implement retention strategies',
+                systems: 'Invest in technology upgrades and process documentation',
+                innovation: 'Establish regular strategic planning sessions and environmental scanning',
+                board: 'Provide board training and implement clear roles and expectations'
+            };
+            
+            return recommendations[category] || 'Focus on strengthening this area through strategic planning';
+        }
+        
+        function saveSustainabilityPlan() {
+            const data = {
+                organization: {
+                    orgName: document.getElementById('orgName').value,
+                    orgAge: document.getElementById('orgAge').value,
+                    annualBudget: document.getElementById('annualBudget').value,
+                    staffSize: document.getElementById('staffSize').value
+                },
+                assessmentScores: assessmentScores,
+                analysis: {
+                    currentStrengths: document.getElementById('currentStrengths').value,
+                    vulnerabilities: document.getElementById('vulnerabilities').value,
+                    opportunities: document.getElementById('opportunities').value,
+                    threats: document.getElementById('threats').value
+                },
+                actionPlan: {
+                    priorityActions: document.getElementById('priorityActions').value,
+                    longTermGoals: document.getElementById('longTermGoals').value,
+                    resourceNeeds: document.getElementById('resourceNeeds').value,
+                    successMetrics: document.getElementById('successMetrics').value
+                },
+                financial: {
+                    revenueGoal: document.getElementById('revenueGoal').value,
+                    reserveGoal: document.getElementById('reserveGoal').value,
+                    diversificationPlan: document.getElementById('diversificationPlan').value,
+                    costReduction: document.getElementById('costReduction').value
+                }
+            };
+            
+            localStorage.setItem('sustainabilityPlanData', JSON.stringify(data));
+            alert('Sustainability plan saved successfully!');
+        }
+        
+        function loadSustainabilityPlan() {
+            const savedData = localStorage.getItem('sustainabilityPlanData');
+            if (savedData) {
+                const data = JSON.parse(savedData);
+                
+                // Load organization data
+                if (data.organization) {
+                    document.getElementById('orgName').value = data.organization.orgName || '';
+                    document.getElementById('orgAge').value = data.organization.orgAge || '';
+                    document.getElementById('annualBudget').value = data.organization.annualBudget || '';
+                    document.getElementById('staffSize').value = data.organization.staffSize || '';
+                }
+                
+                // Load assessment scores
+                if (data.assessmentScores) {
+                    assessmentScores = { ...assessmentScores, ...data.assessmentScores };
+                    Object.entries(assessmentScores).forEach(([category, score]) => {
+                        if (score > 0) {
+                            selectRating(category, score);
+                        }
+                    });
+                }
+                
+                // Load analysis data
+                if (data.analysis) {
+                    document.getElementById('currentStrengths').value = data.analysis.currentStrengths || '';
+                    document.getElementById('vulnerabilities').value = data.analysis.vulnerabilities || '';
+                    document.getElementById('opportunities').value = data.analysis.opportunities || '';
+                    document.getElementById('threats').value = data.analysis.threats || '';
+                }
+                
+                // Load action plan data
+                if (data.actionPlan) {
+                    document.getElementById('priorityActions').value = data.actionPlan.priorityActions || '';
+                    document.getElementById('longTermGoals').value = data.actionPlan.longTermGoals || '';
+                    document.getElementById('resourceNeeds').value = data.actionPlan.resourceNeeds || '';
+                    document.getElementById('successMetrics').value = data.actionPlan.successMetrics || '';
+                }
+                
+                // Load financial data
+                if (data.financial) {
+                    document.getElementById('revenueGoal').value = data.financial.revenueGoal || '';
+                    document.getElementById('reserveGoal').value = data.financial.reserveGoal || '';
+                    document.getElementById('diversificationPlan').value = data.financial.diversificationPlan || '';
+                    document.getElementById('costReduction').value = data.financial.costReduction || '';
+                }
+                
+                calculateSustainabilityScore();
+                updateActionItems();
+            }
+        }
+        
+        function clearSustainabilityPlan() {
+            if (confirm('Are you sure you want to clear all data?')) {
+                // Reset assessment scores
+                assessmentScores = {
+                    funding: 0,
+                    leadership: 0,
+                    culture: 0,
+                    systems: 0,
+                    innovation: 0,
+                    board: 0
+                };
+                
+                // Clear all form fields
+                const inputs = document.querySelectorAll('input, textarea, select');
+                inputs.forEach(input => {
+                    if (input.type === 'radio') {
+                        input.checked = false;
+                    } else {
+                        input.value = '';
+                    }
+                });
+                
+                // Remove styling
+                document.querySelectorAll('.rating-option').forEach(option => {
+                    option.classList.remove('selected');
+                });
+                
+                document.querySelectorAll('.assessment-item').forEach(item => {
+                    item.classList.remove('weak', 'moderate', 'strong');
+                });
+                
+                // Reset score display
+                document.getElementById('scoreDisplay').textContent = '--';
+                document.getElementById('scoreDescription').textContent = 'Complete the assessment to see your sustainability score';
+                
+                // Reset action items
+                document.getElementById('actionItemsList').innerHTML = '<p>Complete the sustainability assessment to receive personalized recommendations.</p>';
+                
+                localStorage.removeItem('sustainabilityPlanData');
+            }
+        }
+        
+        function exportSustainabilityPlan() {
+            window.print();
+        }
+        
+        // Auto-save every 30 seconds
+        setInterval(function() {
+            const hasData = document.getElementById('orgName').value.trim() !== '' ||
+                           Object.values(assessmentScores).some(score => score > 0);
+            
+            if (hasData) {
+                saveSustainabilityPlan();
+            }
+        }, 30000);
+        
+        // Load saved data on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            loadSustainabilityPlan();
+        });
+    </script>
+</body>
+</html>
